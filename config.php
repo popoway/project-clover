@@ -1,6 +1,6 @@
 <?php
 # Specify the development mode
-$development_mode = "develop";
+$development_mode = "production";
 
 # Define Site URL
 if ($development_mode == "develop") {
