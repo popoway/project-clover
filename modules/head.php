@@ -9,6 +9,7 @@ if (!isset($page_title)) $page_title = "Untitled";
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="<?php echo $cdn_url; ?>/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="<?php echo $site_url; ?>/assets/css/main.css">
   <title><?php echo $page_title; ?> - Project Clover</title>
 </head>
 <body>
@@ -23,47 +24,21 @@ if (!isset($page_title)) $page_title = "Untitled";
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Featured Posts</a>
+          <a class="nav-link" href="#">Our Goals</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Cool Dates</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Very Very Suspicious 👀</a>
         </li>
       </ul>
       <span class="navbar-text">
-        Login | Register
+        Signed in as
+        <span id="navbarUsername">
+          <?php if ($authuser == 0) echo "string"; else if ($authuser == 1) echo "string2"; ?>
+        </span>
+        <a href="<?php if ($authuser == 0) echo $site_url. "?authuser=1"; else if ($authuser == 1) echo $site_url. "?authuser=0"; ?>">Switch User</a>
       </span>
     </div>
   </nav>
-
-  <section id="main" style="padding-top: 56px;">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-lg-3">
-        </div>
-        <div class="col-12 col-lg-6">
-          <h1>Hello, world!</h1>
-        </div>
-        <div class="col-12 col-lg-3">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer id="main" style="padding-top: 56px;">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-lg-3">
-        </div>
-        <div class="col-12 col-lg-6 text-center">
-          <p>&copy; <?php echo date("Y"); ?> popoway. Powered by popowayCloud. <a href="https://github.com/popoway/project-clover" target="_blank">GitHub</a></p>
-        </div>
-        <div class="col-12 col-lg-3">
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="<?php echo $cdn_url; ?>/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="<?php echo $cdn_url; ?>/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
-</html>
