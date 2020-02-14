@@ -2,12 +2,26 @@
 require("config.php");
 require_once("modules/helper.php");
 
-# Define authuser
-$authuser = $_GET['authuser'];
-if (!isset($authuser)) header("location:" . $site_url . "?authuser=0");
+# If POST then upload it
+# if (isset($_POST["authuser"])) include("modules/feedUpload.php");
 
-$page_title = "Home";
+# Define authuser (0,1)
+$authuser = $_GET['authuser'];
+# Define current page (home,goals.dates)
+$page = $_GET['page'];
+
+if (!isset($authuser) || !isset($page)) {
+  if (!isset($authuser)) $authuser = 0;
+  if (!isset($page)) $page = "home";
+  header("location:" . $site_url . "?authuser=" . $authuser . "&page=" . $page);
+}
+
+$page_title = currentPageName($page);
 require("modules/head.php");
-require("modules/main.php");
-require("modules/feed.php");
+if ($page == "home") {
+  require("modules/main.php");
+  require("modules/feed.php");
+}
+else if ($page == "goals") require("modules/goals.php");
+else if ($page == "dates") require("modules/dates.php");
 require("modules/tail.php");

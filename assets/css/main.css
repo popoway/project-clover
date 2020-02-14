@@ -2,6 +2,24 @@
   font-weight: bold;
 }
 
-#main {
-  padding-top: 56px;
+#main, #feed, #goals, #dates {
+  padding-top: 78px;
+}
+
+.feed-table {
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.feed-username {
+  display: inline;
+}
+
+.feed-avatar, .feed-content-left {
+  vertical-align: top;
+  width: 80px;
+}
+
+.feed-actions {
+  display: none;
 }
