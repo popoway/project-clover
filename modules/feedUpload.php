@@ -7,13 +7,13 @@ if ( !($_SERVER['REQUEST_METHOD'] == 'POST') ) {
   # 1 - Wrong Request Method
   header("location:" . $site_url . "?authuser=0&page=home&feedUploadError=1");
 }
-else if ( !isset($_POST["authuser"]) || empty(trim($_POST["authuser"])) ) {
+else if ( !isset($_POST["authuser"]) || ($_POST["authuser"] != 0 && $_POST["authuser"] != 1) ) {
   # 2 - Authuser not Specified
-  header("location:" . $site_url . "?authuser=" . $_POST["authuser"] . "&page=home&feedUploadError=2");
+  header("location:" . $site_url . "?authuser=0&page=home&feedUploadError=2");
 }
 else if ( !isset($_POST["mainInput"]) || empty(trim($_POST["mainInput"])) ) {
   # 3 - Empty Input
-  header("location:" . $site_url . "?authuser=0&page=home&feedUploadError=3");
+  header("location:" . $site_url . "?authuser=" . $_POST["authuser"] . "&page=home&feedUploadError=3");
 }
 else {
   $sqlite3_filename = __DIR__."/../" . $sqlite3_filename;
