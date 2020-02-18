@@ -12,6 +12,7 @@
             <li>躺在学校的草坪上看夏日星星 ✨</li>
             <li>在沙滩上拍可爱的情侣装 📷</li>
             <li>一起叠衣服😳</li>
+            <li>Have heart-shaped Valentine's Day special pizza together 🍕</li>
             <li>未完待续呀～</li>
           </ul>
         </div>

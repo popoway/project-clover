@@ -7,7 +7,7 @@
           <p>
             <sub>
               &copy; <?php echo date("Y"); ?> popoway. <a href="https://github.com/popoway/project-clover" target="_blank">GitHub</a><br>
-              Debug info: Running on <?php echo $site_url; ?> in <?php echo $development_mode; ?> mode. SQLite <?php echo getSqliteVersion(); ?> Server timestamp: <?php echo(date("Y-m-d h:m:s T+Z")); ?>
+              Debug info: Running on <?php echo $site_url; ?> in <?php echo $development_mode; ?> mode. SQLite <?php echo getSqliteVersion(); ?> <br>Server timestamp: <?php echo(date("Y-m-d h:m:s T+Z")); ?>
             </sub>
           </p>
         </div>

@@ -10,7 +10,7 @@ elseif ($development_mode == "production") {
   $site_url = "http://yeshan.ming.fyi";
 }
 
-#Define CDN URL
+# Define CDN URL
 $cdn_url = "https://static.popoway.me/ajax/libs";
 
 # Specify the location and filename of the SQLite3 database

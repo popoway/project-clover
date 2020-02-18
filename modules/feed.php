@@ -17,15 +17,15 @@ $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRIT
           ?>
           <table class="feed-table">
             <tr>
-              <th rowspan="2" class="feed-avatar"><img src="<?php echo $site_url; ?>/assets/img/authuser_<?php echo $post["authuser"]; ?>.jpg" alt="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" class="img-thumbnail rounded" width="72"></th>
-              <td><h3 class="feed-username"><?php echo currentAuthuserName($post["authuser"]); ?></h3></td>
+              <th rowspan="2" class="feed-avatar"><img src="<?php echo $site_url; ?>/assets/img/authuser_<?php echo $post["authuser"]; ?>.jpg" title="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" alt="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" class="img-thumbnail rounded" width="72"></th>
+              <td><h3 class="feed-username" title="Post sent by <?php echo currentAuthuserName($post["authuser"]); ?>"><?php echo currentAuthuserName($post["authuser"]); ?></h3></td>
             </tr>
             <tr>
               <td title="Post Date"><?php echo $post["created"]; ?></td>
             </tr>
             <tr>
               <th class="feed-content-left"></th>
-              <td><?php echo $post["content"]; ?></td>
+              <td title="Post Content"><?php echo $post["content"]; ?></td>
             </tr>
             <tr>
               <th colspan="2" class="feed-actions">[Like] [Comment] [Share] (尚未实现的功能🙈)</th>
