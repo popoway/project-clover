@@ -35,7 +35,7 @@ else {
 
   # Open the database connection
   $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
-  $query_value = "INSERT INTO \"posts\" (\"content\", \"authuser\", \"created\", \"ip_address\", \"user_agent\") VALUES (\"" . $content . "\", \"" . $authuser . "\", \"" . date('Y-m-d H:i:s') . "\", \"" . $ip_address . "\", \"" . SQLite3::escapeString($user_agent) . "\")";
+  $query_value = "INSERT INTO \"posts\" (\"content\", \"authuser\", \"created\", \"ip_address\", \"user_agent\") VALUES (\"" . $content . "\", \"" . $authuser . "\", \"" . gmdate('Y-m-d H:i:s') . "\", \"" . $ip_address . "\", \"" . SQLite3::escapeString($user_agent) . "\")";
   # Insert the post to database
   $db->exec('BEGIN');
   $db->query($query_value);

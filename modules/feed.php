@@ -21,7 +21,7 @@ $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRIT
               <td><h3 class="feed-username" title="Post sent by <?php echo currentAuthuserName($post["authuser"]); ?>"><?php echo currentAuthuserName($post["authuser"]); ?></h3></td>
             </tr>
             <tr>
-              <td title="Post Date"><?php echo $post["created"]; ?></td>
+              <td title="Post Date" class="feed-date"><?php echo $post["created"]; ?></td>
             </tr>
             <tr>
               <th class="feed-content-left"></th>
