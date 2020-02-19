@@ -21,7 +21,12 @@ $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRIT
               <td><h3 class="feed-username" title="Post sent by <?php echo currentAuthuserName($post["authuser"]); ?>"><?php echo currentAuthuserName($post["authuser"]); ?></h3></td>
             </tr>
             <tr>
-              <td title="Post Date" class="feed-date"><?php echo $post["created"]; ?></td>
+              <?php
+              # Explicitly define UTC datetime
+              $isoDate = date_create($post["created"], timezone_open('UTC'));
+              $isoDateString = date_format($isoDate, "c");
+              ?>
+              <td title="Post Date" class="feed-date"><?php echo $isoDateString; ?></td>
             </tr>
             <tr>
               <th class="feed-content-left"></th>
