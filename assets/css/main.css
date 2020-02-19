@@ -24,6 +24,10 @@
   width: 80px;
 }
 
+.feed-content {
+  white-space: pre-wrap;
+}
+
 .feed-actions {
   display: none;
 }

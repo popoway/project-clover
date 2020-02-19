@@ -30,7 +30,7 @@ $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRIT
             </tr>
             <tr>
               <th class="feed-content-left"></th>
-              <td title="Post Content"><?php echo $post["content"]; ?></td>
+              <td title="Post Content" class="feed-content"><?php echo $post["content"]; ?></td>
             </tr>
             <tr>
               <th colspan="2" class="feed-actions">[Like] [Comment] [Share] (尚未实现的功能🙈)</th>
