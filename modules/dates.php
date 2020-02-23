@@ -15,6 +15,9 @@
             <li>圣诞节 🎄：2019.12.25</li>
             <li>第一次一起吃火锅 🍲：2020.1.5</li>
             <li>Her Graduate Center Interview 👩‍🏫 👨‍🏫 🗣: 2020.2.6</li>
+            <li>She got the offer! 🏆: 2020.2.20</li>
+            <li>Fitst time video chat to do something <em>very very very</em> suspicious (warm and loved) 👀: 2020.2.23</li>
+            <li>First time texting each other with sweet titles 💖: 2020.2.23</li>
             <li>More significant dates to be listed 😊</li>
           </ul>
         </div>
