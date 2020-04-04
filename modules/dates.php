@@ -20,6 +20,7 @@
             <li>First time texting each other with sweet titles 💖: 2020.2.23</li>
             <li>Ming's 22nd Birthday 🧣: 2020.3.9</li>
             <li>第一次唱 <em>小星星</em> ✨: 2020.3.15</li>
+            <li>She scheduled visa appointment! 📆: 2020.4.2</li>
             <li>More significant dates to be listed 😊</li>
           </ul>
         </div>
