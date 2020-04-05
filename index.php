@@ -2,6 +2,9 @@
 require("config.php");
 require_once("modules/helper.php");
 
+# Environment check
+if (getSqliteVersion() != "enabled") die("SQLite3 must be installed and enabled on the server to use the app.");
+
 # If POST then upload it
 # if (isset($_POST["authuser"])) include("modules/feedUpload.php");
 
@@ -16,6 +19,7 @@ if (!isset($authuser) || !isset($page)) {
   header("location:" . $site_url . "?authuser=" . $authuser . "&page=" . $page);
 }
 
+# Generate page content
 $page_title = currentPageName($page);
 require("modules/head.php");
 if ($page == "home") {

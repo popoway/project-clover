@@ -6,8 +6,8 @@
         <div class="col-12 col-lg-6 text-center">
           <p>
             <sub>
-              project-clover v<?php echo CVER; ?> &copy; <?php echo date("Y"); ?> popoway. <a href="https://github.com/popoway/project-clover" target="_blank">GitHub</a><br>
-              Debug info: Running on <?php echo $site_url; ?> in <?php echo $development_mode; ?> mode. SQLite <?php echo getSqliteVersion(); ?> <br>Server timestamp: <?php echo(date("Y-m-d h:m:s T+Z")); ?>
+              project-clover v<?php echo CVER; ?> &copy; <?php echo date("Y"); ?> popoway. <a href="https://github.com/popoway/project-clover" target="_blank">GitHub</a>
+              <a href="javascript:alert('Debug info: \nRunning on <?php echo gethostname(); ?> in <?php echo $development_mode; ?> mode. \nSite URL: <?php echo $site_url; ?>\nSQLite: <?php echo getSqliteVersion(); ?> \nServer timestamp: <?php echo(date("Y-m-d h:m:s T+Z")); ?>')">Debug</a>
             </sub>
           </p>
         </div>

@@ -11,7 +11,19 @@ function localizeFeedDate(date){
   return dateString;
 }
 
+function wordCount(){
+  var c = $("#mainInput").val().length;
+  if (c == 0) $("#mainInputHelp").text("随便说点什么吧～😉");
+  else $("#mainInputHelp").text("Word Count: " + c);
+}
+
+function wordCountOnReset(){
+  $("#mainInputHelp").text("随便说点什么吧～😉");
+}
+
 $(document).ready(function(){
+  // construct EventListener for mainInput for wordCount
+  document.getElementById("mainInput").addEventListener("input", wordCount);
   // Parse UTC feed date to local date
   $(".feed-date").each(function(index){
     $(this).text(localizeFeedDate($(this).text()));

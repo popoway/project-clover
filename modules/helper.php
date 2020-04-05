@@ -4,7 +4,17 @@ function getSqliteVersion() {
   else return "not installed";
 }
 function currentAuthuserName($authuser) {
-  if ($authuser == 0) return "Yeshan"; else if ($authuser == 1) return "Ming";
+  switch ($authuser) {
+    case 0:
+      return "Yeshan";
+      break;
+    case 1:
+      return "Ming";
+      break;
+    default:
+      return null;
+      break;
+  }
 }
 function currentPageName($page) {
   if ($page == "home") return "Home";

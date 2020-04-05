@@ -9,7 +9,7 @@ $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRIT
         <div class="col-12 col-lg-3">
         </div>
         <div class="col-12 col-lg-6">
-          <h2>Feed List / 好友动态</h2>
+          <h2>Our Feed 我们的动态</h2>
           <?php
           $statement = $db->prepare('SELECT * FROM "posts" ORDER BY "created" DESC');
           $result = $statement->execute();

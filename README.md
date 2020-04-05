@@ -18,6 +18,10 @@ We were thinking about getting an app / service to store our memories. Then it t
 
 Everything you need to host this app on your server is any server with PHP installed, plus SQLite extension support. The app consists of a few php files, a sqlite3 database, and static assets. You can download the latest distribution files from the [release page](https://github.com/popoway/project-clover/releases).
 
+## Compatibility
+
+The app should be running functionally on the latest 3 stable versions of Safari and Chrome.
+
 ## TODO
 [TODO](https://github.com/popoway/project-clover/wiki/TODO)
 
