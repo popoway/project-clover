@@ -17,4 +17,4 @@ $cdn_url = "https://static.popoway.me/ajax/libs";
 $sqlite3_filename = "clover.sqlite3";
 
 # Specify the app version.
-define("CVER", "1.0.4");
+define("CVER", "1.0.5");

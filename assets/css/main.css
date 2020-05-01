@@ -16,6 +16,10 @@ h2 {
   padding-top: 78px;
 }
 
+#mainFormName {
+  font-weight: 500;
+}
+
 #mainFormButtonSubmit {
   width: 86px;
 }

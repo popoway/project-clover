@@ -30,6 +30,9 @@ if (!isset($page_title)) $page_title = "Untitled";
           <a class="nav-link" href="./?authuser=<?php echo $authuser; ?>&page=dates">Cool Dates</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="javascript:alert('没错，这个链接啥功能也木有 😛')">Very Very Suspicious 👀</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="https://github.com/popoway/project-clover/wiki/TODO" target="_blank">产品经理的需求</a>
         </li>
         <li class="nav-item">
