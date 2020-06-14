@@ -28,4 +28,5 @@ if ($page == "home") {
 }
 else if ($page == "goals") require("modules/goals.php");
 else if ($page == "dates") require("modules/dates.php");
+else if ($page == "mobileconfig") require("modules/mobileconfig.php");
 require("modules/tail.php");

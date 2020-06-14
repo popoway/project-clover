@@ -19,6 +19,6 @@
 
   <script src="<?php echo $cdn_url; ?>/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="<?php echo $cdn_url; ?>/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  <script src="<?php echo $site_url; ?>/assets/js/main.js"></script>
+  <script src="<?php echo $site_url; ?>/assets/js/main.js?ver=<?php echo CVER; ?>"></script>
 </body>
 </html>

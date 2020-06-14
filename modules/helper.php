@@ -20,5 +20,6 @@ function currentPageName($page) {
   if ($page == "home") return "Home";
   else if ($page == "goals") return "Goals";
   else if ($page == "dates") return "Important Dates";
+  else if ($page == "mobileconfig") return "Shortcut";
   else return null;
 }

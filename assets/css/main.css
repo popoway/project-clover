@@ -12,7 +12,7 @@ h2 {
   font-weight: bold;
 }
 
-#main, #feed, #goals, #dates {
+#main, #feed, #goals, #dates, #mobileconfig {
   padding-top: 78px;
 }
 

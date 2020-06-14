@@ -29,3 +29,7 @@ $(document).ready(function(){
     $(this).text(localizeFeedDate($(this).text()));
   });
 });
+
+function literalUserAgent(){
+  MicroMessenger
+}
