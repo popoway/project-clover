@@ -4,7 +4,7 @@
         <div class="col-12 col-lg-3">
         </div>
         <div class="col-12 col-lg-6">
-          <form id="mainForm" action="<?php echo $site_url; ?>/modules/feedUpload.php" method="post">
+          <form id="mainForm" action="<?php echo $site_url; ?>/api/feedUpload.php" method="post">
             <div class="form-group">
               <label for="mainInput">
                 <span id="mainFormName"><?php echo currentAuthuserName($authuser); ?></span><span>, What do you want to say today?</span>

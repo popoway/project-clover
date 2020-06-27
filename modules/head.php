@@ -33,13 +33,13 @@ if (!isset($page_title)) $page_title = "Untitled";
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item <?php if ($page == "home") echo 'active'; ?>">
-          <a class="nav-link" href="./?authuser=<?php echo $authuser; ?>&page=home">Home</a>
+          <a class="nav-link" href="./?page=home">Home</a>
         </li>
         <li class="nav-item <?php if ($page == "goals") echo 'active'; ?>">
-          <a class="nav-link" href="./?authuser=<?php echo $authuser; ?>&page=goals">Our Goals</a>
+          <a class="nav-link" href="./?page=goals">Our Goals</a>
         </li>
         <li class="nav-item <?php if ($page == "dates") echo 'active'; ?>">
-          <a class="nav-link" href="./?authuser=<?php echo $authuser; ?>&page=dates">Cool Dates</a>
+          <a class="nav-link" href="./?page=dates">Cool Dates</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,12 +56,22 @@ if (!isset($page_title)) $page_title = "Untitled";
           <a class="nav-link" href="javascript:alert('没错，这个链接啥功能也木有 😛')">Very Very Suspicious 👀</a>
         </li>
       </ul>
+      <?php if ($_SESSION["signedin"]) {
+        ?>
       <span class="navbar-text">
         Signed in as
         <span id="navbarUsername">
-          <?php echo currentAuthuserName($authuser); ?>
+          <?php echo currentAuthuserName($_SESSION["authuser"]); ?>
         </span>
-        <a href="<?php if ($authuser == 0) echo $site_url. "?authuser=1"; else if ($authuser == 1) echo $site_url. "?authuser=0"; ?>">Switch User</a>
+        <a href="javascript:void(0)">Sign out</a>
       </span>
+        <?php
+      } else {
+        ?>
+      <span class="navbar-text">
+        You have not signed in.
+      </span>
+        <?php
+      }?>
     </div>
   </nav>

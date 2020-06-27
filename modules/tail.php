@@ -8,6 +8,7 @@
             <sub>
               project-clover v<?php echo CVER; ?> &copy; <?php echo date("Y"); ?> popoway. <a href="https://github.com/popoway/project-clover" target="_blank">GitHub</a>
               <a href="javascript:alert('Debug info: \nRunning on <?php echo gethostname(); ?> in <?php echo $development_mode; ?> mode. \nSite URL: <?php echo $site_url; ?>\nSQLite: <?php echo getSqliteVersion(); ?> \nServer timestamp: <?php echo(date("Y-m-d h:m:s T+Z")); ?>')">Debug</a>
+              <a href="https://www.popoway.cloud/portal/" target="_blank">Status</a>
             </sub>
           </p>
         </div>

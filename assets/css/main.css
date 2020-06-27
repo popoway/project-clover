@@ -12,7 +12,11 @@ h2 {
   font-weight: bold;
 }
 
-#main, #feed, #goals, #dates, #mobileconfig {
+#signinPassword, #signinError {
+  display: none;
+}
+
+#main, #feed, #goals, #dates, #mobileconfig, #signin {
   padding-top: 78px;
 }
 
@@ -24,9 +28,24 @@ h2 {
   width: 86px;
 }
 
+.signin-avatar-picker {
+  margin: 60px auto 10px auto;
+}
+
+.signin-avatar-picker-choice {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.signin-avatar-picker-choice span {
+  display: block;
+  margin: 10px auto 0 auto;
+}
+
 .feed-table {
-  width: 100%;
   padding-bottom: 20px;
+  width: 100%;
 }
 
 .feed-username {
