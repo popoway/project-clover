@@ -110,6 +110,60 @@ function wordCount(){
   else $("#mainInputHelp").text("Word Count: " + c);
 }
 
+function asyncPostUpload(evt) {
+  evt.preventDefault();
+  // Frontend validation
+  document.querySelector("#mainForm").classList.add('was-validated');
+  if (document.querySelector("#mainInput").value === "") {
+    document.querySelector(".invalid-feedback").textContent = "没有内容的动态不是好动态 🤭";
+    return;
+  }
+  else {
+    // Form style before ajax
+    document.querySelector("#mainInputHelp").style.display = "none";
+    document.querySelector(".btn-primary").disabled = true;
+    document.querySelector(".btn-primary").style.width = "auto";
+    document.querySelector(".btn-secondary").style.display = "none";
+    const loadingButton = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>发表中...';
+    document.querySelector(".btn-primary").innerHTML = loadingButton;
+    // ajax
+    const mainInput = document.querySelector("#mainInput").value;
+    $.ajax({url: "/api/postUpload.php", type: "POST", data: {mainInput: mainInput},
+    success: function(result){
+      if (result === "0") {
+        const successButton = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>发表成功';
+        document.querySelector(".btn-primary").innerHTML = successButton;
+        setTimeout(function(){ location.href = "/index.php?page=home"; }, 1000);
+      }
+      else {
+        document.querySelector("#mainInputHelp").style.removeProperty('display');
+        document.querySelector(".btn-primary").disabled = false;
+        document.querySelector(".btn-primary").innerHTML = '发表';
+        document.querySelector(".btn-secondary").style.removeProperty('display');
+        document.querySelector("#signinPassword").classList.remove('was-validated');
+        document.querySelector("#signinInputPassword").classList.add('is-invalid');
+        let msg = 'Callback Error message';
+        if (result === "1") {
+          msg = 'Wrong Request Method';
+        }
+        else if (result === "2") {
+          msg = 'You did not sign in. Why not sign in and try again?';
+        }
+        else if (result === "3") {
+          msg = 'mainInput is missing on the server side.';
+        }
+        else {
+          msg = `Error: ${result}`;
+        }
+        document.querySelector(".invalid-feedback").textContent = msg;
+      }
+    },
+    error: function(xhr){
+      alert("A server side error occured: " + xhr.status + " " + xhr.statusText + "\nPlease try again later.");
+    }});
+  }
+}
+
 function wordCountOnReset(){
   $("#mainInputHelp").text("随便说点什么吧～😉");
 }
@@ -134,6 +188,13 @@ $(document).ready(function(){
   if (moduleExists("main")) {
     // construct EventListener for mainInput for wordCount
     document.getElementById("mainInput").addEventListener("input", wordCount);
+    // async post upload
+    document.getElementById("mainForm").addEventListener("submit", asyncPostUpload, false);
+    document.querySelector("#mainInput").addEventListener("input", function(){
+      document.querySelector("#mainForm").classList.remove('was-validated');
+      document.querySelector("#mainInput").classList.remove('is-invalid');
+      document.querySelector("#mainInputHelp").style.removeProperty('display');
+    }, false);
   }
   if (moduleExists("feed")) {
     // Parse UTC feed date to local date

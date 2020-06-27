@@ -16,7 +16,7 @@ else if ($_SESSION["signedin"] == true) {
   echo 2;
   return 2;
 }
-else if ( !isset($_POST["authuser"]) || empty(trim($_POST["authuser"])) || !isset($_POST["password"]) || empty(trim($_POST["password"])) ) {
+else if ( !isset($_POST["authuser"]) || (trim($_POST["authuser"])=="") || !isset($_POST["password"]) || empty(trim($_POST["password"])) ) {
   # 3 - Missing Input
   echo 3;
   return 3;
