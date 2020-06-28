@@ -7,18 +7,18 @@ if (!isset($page_title)) $page_title = "Untitled";
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
   <meta name="description" content="Project Clover web application.">
   <meta name="keywords" content="Ming, Yeshan, love, relationship, goals">
   <meta name="author" content="popoway">
   <!-- Load fav and touch icons -->
-  <link rel="shortcut icon" href="<?php echo $site_url; ?>/assets/img/Icon-60@3x.png">
+  <link rel="shortcut icon" href="<?php echo $site_url; ?>/assets/img/Icon-60@3x.png?ver=<?php echo CVER; ?>">
   <!-- iOS integration -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Project Clover">
   <meta name="format-detection" content="telephone=no">
-  <link rel="apple-touch-icon" sizes="192x192" href="/assets/img/touchicon_192px.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/img/touchicon_192px.png?ver=<?php echo CVER; ?>">
 
   <link rel="stylesheet" href="<?php echo $cdn_url; ?>/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
   <link rel="stylesheet" href="<?php echo $site_url; ?>/assets/css/main.css?ver=<?php echo CVER; ?>">

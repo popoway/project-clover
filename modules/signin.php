@@ -7,11 +7,11 @@
           <h1>Sign in to Project Clover</h1>
           <div class="signin-avatar-picker">
             <div class="signin-avatar-picker-choice" tabindex="0">
-              <img src="<?php echo $site_url; ?>/assets/img/authuser_0.jpg" title="Avatar of Yeshan" alt="Avatar of Yeshan" class="img-thumbnail rounded" width="72">
+              <img src="<?php echo $site_url; ?>/assets/img/authuser_0.jpg?ver=<?php echo CVER; ?>" title="Avatar of Yeshan" alt="Avatar of Yeshan" class="img-thumbnail rounded" width="72">
               <span>Yeshan</span>
             </div>
             <div class="signin-avatar-picker-choice" tabindex="0">
-              <img src="<?php echo $site_url; ?>/assets/img/authuser_1.jpg" title="Avatar of Ming" alt="Avatar of Ming" class="img-thumbnail rounded" width="72">
+              <img src="<?php echo $site_url; ?>/assets/img/authuser_1.jpg?ver=<?php echo CVER; ?>" title="Avatar of Ming" alt="Avatar of Ming" class="img-thumbnail rounded" width="72">
               <span>Ming</span>
             </div>
           </div>

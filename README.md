@@ -7,7 +7,7 @@
 Who's the Queen of vday20?
 
 ## Quick Links
-Production: http://yeshan.ming.fyi  
+Production: http://clover.yeshan.ming.fyi  
 Development: https://project-clover.app.popoway.cloud
 
 ## Motivation
