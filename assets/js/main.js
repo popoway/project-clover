@@ -168,6 +168,48 @@ function wordCountOnReset(){
   $("#mainInputHelp").text("随便说点什么吧～😉");
 }
 
+function asyncPostRemove(evt) {
+  evt.preventDefault();
+  if (confirm("Are you sure you want to remove this post? This action cannot be undone.")) {
+    const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
+    const post_id = currentPost.getAttribute("id").replace(/[^0-9]/g, '');
+    console.log("Try to remove post_id: " + post_id);
+    $.ajax({url: "/api/postHide.php", type: "POST", data: {post_id: post_id},
+    success: function(result){
+      if (result === "0") {
+        currentPost.style.display = "none";
+        alert(`Post #${post_id} has been successfully removed.`)
+      }
+      else {
+        let msg = 'Callback Error message';
+        if (result === "1") {
+          msg = 'Wrong Request Method';
+        }
+        else if (result === "2") {
+          msg = 'You did not sign in. Why not sign in and try again?';
+        }
+        else if (result === "3") {
+          msg = 'mainInput is missing on the server side.';
+        }
+        else if (result === "4") {
+          msg = 'The post_id you requested is invalid. Try reload the page.';
+        }
+        else {
+          msg = `Error: ${result}`;
+        }
+        alert(msg);
+        console.log(msg);
+      }
+    },
+    error: function(xhr){
+      alert("A server side error occured: " + xhr.status + " " + xhr.statusText + "\nPlease try again later.");
+    }});
+  }
+  else {
+    alert("You have cancelled the action. No post is removed.");
+  }
+}
+
 $(document).ready(function(){
   if (!moduleExists("signin")) {
     document.querySelector(".navbar-text a").addEventListener("click", asyncSignout, false);
@@ -201,6 +243,10 @@ $(document).ready(function(){
     $(".feed-date").each(function(index){
       $(this).text(localizeFeedDate($(this).text()));
     });
+    const removeButton = document.querySelectorAll(".feed-action-remove");
+    for (let i = 0; i < removeButton.length; i++) {
+      removeButton[i].addEventListener("click", asyncPostRemove);
+    }
   }
 });
 
