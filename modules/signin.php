@@ -23,7 +23,7 @@
               <div class="invalid-feedback">Callback Error message</div>
             </div>
             <button type="submit" class="btn btn-primary">Sign in</button>
-            <button type="reset" class="btn btn-secondary" onclick="window.location.reload();">Cancel</button>
+            <button type="reset" class="btn btn-secondary">Cancel</button>
           </form>
         </div>
         <div class="col-12 col-lg-3">

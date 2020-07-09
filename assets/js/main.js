@@ -216,15 +216,26 @@ $(document).ready(function(){
   }
   if (moduleExists("signin")) {
     // signin-avatar-picker
-    const avatar = document.querySelectorAll(".signin-avatar-picker-choice");
-    for (let i = 0; i < avatar.length; i++) {
-      avatar[i].addEventListener("click", authuserSpecifier);
+    const avatars = document.querySelectorAll(".signin-avatar-picker-choice");
+    for (let avatar of avatars) {
+      avatar.addEventListener("click", authuserSpecifier);
+      avatar.addEventListener("keyup", (event) => {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          event.target.querySelector("span").click();
+        }
+      });
     }
     document.querySelector("#signinPassword").addEventListener("submit", asyncSignin, false);
-    document.querySelector("#signinInputPassword").addEventListener("input", function(){
+    document.querySelector("#signinInputPassword").addEventListener("input", () => {
       document.querySelector("#signinPassword").classList.remove('was-validated');
       document.querySelector("#signinInputPassword").classList.remove('is-invalid');
     }, false);
+    document.querySelector('.btn-secondary').addEventListener("click", (event) => {
+      event.preventDefault();
+      document.getElementById("signinPassword").style.removeProperty('display');
+    });
     if (getUrlParam('signedout', '0') === "1") alert("You have successfully signed out.");
   }
   if (moduleExists("main")) {
@@ -232,7 +243,7 @@ $(document).ready(function(){
     document.getElementById("mainInput").addEventListener("input", wordCount);
     // async post upload
     document.getElementById("mainForm").addEventListener("submit", asyncPostUpload, false);
-    document.querySelector("#mainInput").addEventListener("input", function(){
+    document.querySelector("#mainInput").addEventListener("input", () => {
       document.querySelector("#mainForm").classList.remove('was-validated');
       document.querySelector("#mainInput").classList.remove('is-invalid');
       document.querySelector("#mainInputHelp").style.removeProperty('display');
