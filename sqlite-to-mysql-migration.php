@@ -1,6 +1,6 @@
 <?php
 # --------------------------------------------------------
-echo "SQLite to MySQL Migration Script for Project Clover v1.1.0" . PHP_EOL;
+echo "SQLite to MySQL Migration Script for Project Clover v2.0.0" . PHP_EOL;
 #
 # Notes:
 # 1. Only schema of the user table will be migrated, you need to move user records manually
@@ -23,6 +23,29 @@ $mysql_username = "project_clover_user";
 $mysql_password = "password";
 $mysql_prefix = "pc_";
 # --------------------------------------------------------
+# Sample output:
+# [popoway@lemp project-clover]# php sqlite-to-mysql-migration.php 
+# SQLite to MySQL Migration Script for Project Clover v2.0.0
+# Checking environment...
+# Connecting to databases...
+# Connected to SQLite database clover.sqlite3
+# Connected to MySQL server database.popoway.cloud, database: project_clover
+# Set MySQL database project_clover utf8 encoding
+# 522 rows found in clover.sqlite3/posts
+# Table project_clover/pc_posts created successfully
+# Migrating posts table...1...101...201...301...401...501...Done.
+# 522 rows inserted into pc_posts successfully
+# 6 rows found in clover.sqlite3/posts_hidden
+# Table project_clover/pc_posts_hidden created successfully
+# Migrating posts_hidden table...
+# 6 rows inserted into pc_posts_hidden successfully
+# 3 rows found in clover.sqlite3/users
+# Table project_clover/pc_users created successfully
+# Migrating users table...
+# 3 rows inserted into pc_users successfully
+# Closing database connections...
+# Migration completed!
+# --------------------------------------------------------
 
 echo "Checking environment..." . PHP_EOL;
 if (version_compare(PHP_VERSION, '5.6.0') < 0) {
@@ -39,7 +62,7 @@ echo "Connecting to databases..." . PHP_EOL;
 try {
   $sqlite = new PDO('sqlite:' . $sqlite_filename);
   echo "Connected to SQLite database $sqlite_filename" . PHP_EOL;
-  $mysql = new PDO("mysql:host=$mysql_server;dbname=$mysql_database;charset=utf8", $mysql_username, $mysql_password);
+  $mysql = new PDO("mysql:host=$mysql_server;dbname=$mysql_database;charset=utf8mb4", $mysql_username, $mysql_password);
   echo "Connected to MySQL server $mysql_server, database: $mysql_database" . PHP_EOL;
 
   // set the PDO error mode to exception
@@ -52,6 +75,8 @@ try {
   $db_users = $mysql_prefix . "users";
 
   // Set utf8 encoding
+  $sql = "SET NAMES utf8mb4";
+  $mysql->exec($sql);
   $sql = "ALTER DATABASE $mysql_database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci";
   $mysql->exec($sql);
   echo "Set MySQL database $mysql_database utf8 encoding" . PHP_EOL;
@@ -81,20 +106,20 @@ try {
   $mysql->exec($sql);
   echo "Table $mysql_database/$db_posts created successfully" . PHP_EOL;
 
-  echo "Migrating posts table..." . PHP_EOL;
+  echo "Migrating posts table...";
   foreach ($out as $post) {
     $post_id = $post["id"];
-    $post_content = $mysql->quote(utf8_encode($post["content"]));
+    $post_content = $mysql->quote($post["content"]);
     $post_authuser = $post["authuser"];
     $post_created = $post["created"];
     $post_ip_address = $post["ip_address"];
     $post_user_agent = $mysql->quote($post["user_agent"]);
-    
     $sql = "INSERT INTO $db_posts (id, content, authuser, created, ip_address, user_agent)
             VALUES ('$post_id', $post_content, '$post_authuser', '$post_created', '$post_ip_address', $post_user_agent)";
     $mysql->exec($sql);
+    if ($post_id % 100 == 1) echo $post_id . "...";
   }
-  echo count($out) . " rows inserted into $db_posts successfully" . PHP_EOL;
+  echo "Done." . PHP_EOL . count($out) . " rows inserted into $db_posts successfully" . PHP_EOL;
 
   # 2. posts_hidden table
   $sqlite_sql = $sqlite->prepare('SELECT * FROM posts_hidden ORDER BY id ASC');
