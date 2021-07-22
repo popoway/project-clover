@@ -1,9 +1,5 @@
 <?php
-require(__DIR__."/../config.php");
-require(__DIR__."/../helper.php");
-
-# Start the session
-session_start();
+require("index.php");
 
 # Reject invalid request
 if ( !($_SERVER['REQUEST_METHOD'] == 'POST') ) {
@@ -27,20 +23,21 @@ else if ( intval($_POST["post_id"]) < 1 ) {
   return 4;
 }
 else {
-  $sqlite3_filename = __DIR__."/../" . $sqlite3_filename;
   $post_id = $_POST["post_id"];
   $authuser = $_SESSION["authuser"];
   $ip_address = getClientIPAddress();
   $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-  # Open the database connection
-  $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
-  $query_value = 'INSERT INTO posts_hidden (post_id, created, ip_address, user_agent) VALUES (\'' . SQLite3::escapeString($post_id) . '\',\'' . gmdate('Y-m-d H:i:s') . '\',\'' . $ip_address . '\',\'' . SQLite3::escapeString($user_agent) . '\')';
-  # Insert the post to database
-  $db->exec('BEGIN');
-  $db->query($query_value);
-  $db->exec('COMMIT');
+  $stmt = $conn->prepare("INSERT INTO $db_posts_hidden (post_id, created, ip_address, user_agent)
+          VALUES (:post_id, :created, :ip_address, :user_agent)");
+  $stmt->bindParam(':post_id', $post_id);
+  $stmt->bindParam(':created', gmdate('Y-m-d H:i:s'));
+  $stmt->bindParam(':ip_address', $ip_address);
+  $stmt->bindParam(':user_agent', $user_agent);
 
+  $stmt->execute();
+
+  $conn = null;
   echo 0;
   return 0;
 }

@@ -12,21 +12,21 @@ if (!isset($page_title)) $page_title = "Untitled";
   <meta name="keywords" content="Ming, Yeshan, love, relationship, goals">
   <meta name="author" content="popoway">
   <!-- Load fav and touch icons -->
-  <link rel="shortcut icon" href="<?php echo $site_url; ?>/assets/img/Icon-60@3x.png?ver=<?php echo CVER; ?>">
+  <link rel="shortcut icon" href="<?php echo PC_SITEURL; ?>/assets/img/Icon-60@3x.png?ver=<?php echo PC_VER; ?>">
   <!-- iOS integration -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Project Clover">
   <meta name="format-detection" content="telephone=no">
-  <link rel="apple-touch-icon" sizes="192x192" href="/assets/img/touchicon_192px.png?ver=<?php echo CVER; ?>">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/img/touchicon_192px.png?ver=<?php echo PC_VER; ?>">
 
-  <link rel="stylesheet" href="<?php echo $cdn_url; ?>/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
-  <link rel="stylesheet" href="<?php echo $site_url; ?>/assets/css/main.css?ver=<?php echo CVER; ?>">
+  <link rel="stylesheet" href="<?php echo PC_CDNURL; ?>/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="<?php echo PC_SITEURL; ?>/assets/css/main.css?ver=<?php echo PC_VER; ?>">
   <title><?php echo $page_title; ?> - Project Clover</title>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">🍀 Project Clover</a>
+    <a class="navbar-brand" href="#">🍀 <?php if (PC_ENV == "production") {echo "Project Clover";} else {echo PC_ENV . " " . $table_prefix;} ?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -55,6 +55,11 @@ if (!isset($page_title)) $page_title = "Untitled";
         <li class="nav-item">
           <a class="nav-link" href="javascript:alert('没错，这个链接啥功能也木有 😛')">Very Very Suspicious 👀</a>
         </li>
+        <?php if (PC_ENV != "production") { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><?php echo "env: " . PC_ENV . " prefix: " . $table_prefix; ?></a>
+        </li>
+        <?php } ?>
       </ul>
       <?php if ($_SESSION["signedin"]) {
         ?>

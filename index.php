@@ -2,9 +2,6 @@
 require("config.php");
 require("helper.php");
 
-# Environment check
-if (getSqliteVersion() != "enabled") die("SQLite3 must be installed and enabled on the server to use the app.");
-
 # Start the session
 session_start();
 
@@ -16,19 +13,19 @@ $authuser = $_SESSION['authuser'];
 $page = $_GET['page'];
 if (!isset($page)) {
   if (!isset($page)) $page = "home";
-  header("location:" . $site_url . "?page=" . $page);
+  header("location:" . PC_SITEURL . "?page=" . $page);
 }
 
 # Redirect if not signed in
 if (!signedin() && ($page != "signin")) {
-  header("location:" . $site_url . "?page=signin&continue=" . $page);
+  header("location:" . PC_SITEURL . "?page=signin&continue=" . $page);
 }
 if (($page == "signin") && empty($_GET['continue'])) {
-  header("location:" . $site_url . "?page=signin&continue=home");
+  header("location:" . PC_SITEURL . "?page=signin&continue=home");
 }
 if (signedin() && ($page == "signin")) {
-  if (!isset($_GET['continue']) || $_GET['continue'] === "home") header("location:" . $site_url . "?page=home");
-  else header("location:" . $site_url . "?page=" . $_GET['continue']);
+  if (!isset($_GET['continue']) || $_GET['continue'] === "home") header("location:" . PC_SITEURL . "?page=home");
+  else header("location:" . PC_SITEURL . "?page=" . $_GET['continue']);
 }
 
 # Generate page content

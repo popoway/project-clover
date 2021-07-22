@@ -1,6 +1,6 @@
 <?php
 # Open the database connection
-$db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+require(__DIR__."/../api/index.php");
 ?>
 
   <section id="feed">
@@ -11,14 +11,14 @@ $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRIT
         <div class="col-12 col-lg-6">
           <h2>Our Feed 我们的动态</h2>
           <?php
-          $statement = $db->prepare('SELECT * FROM "posts" WHERE id NOT IN (SELECT post_id FROM posts_hidden) ORDER BY "created" DESC');
-          $result = $statement->execute();
-          while ($post = $result->fetchArray(SQLITE3_ASSOC)) {
+          $stmt = $conn->prepare("SELECT * FROM $db_posts WHERE id NOT IN (SELECT post_id FROM $db_posts_hidden) ORDER BY created DESC");
+          $stmt->execute();
+          while ($post = $stmt->fetch(PDO::FETCH_ASSOC)) {
           ?>
           <table id="feedPost_<?php echo $post["id"]; ?>" class="feed-table" tabindex="0">
             <tr>
               <th rowspan="2" class="feed-avatar">
-                <img src="<?php echo $site_url; ?>/assets/img/authuser_<?php echo $post["authuser"]; ?>.jpg?ver=<?php echo CVER; ?>" title="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" alt="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" class="img-thumbnail rounded" width="72">
+                <img src="<?php echo PC_SITEURL; ?>/assets/img/authuser_<?php echo $post["authuser"]; ?>.jpg?ver=<?php echo PC_VER; ?>" title="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" alt="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" class="img-thumbnail rounded" width="72">
               </th>
               <th><h3 class="feed-username" title="Post sent by <?php echo currentAuthuserName($post["authuser"]); ?>"><?php echo currentAuthuserName($post["authuser"]); ?></h3></th>
             </tr>
@@ -48,10 +48,7 @@ $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRIT
           </table>
           <?php
           }
-          // Free the memory, this is NOT done automatically, while the script is running
-          $result->finalize();
-          // Close the database.
-          $db->close();
+          $conn = null;
           ?>
         </div>
         <div class="col-12 col-lg-3">

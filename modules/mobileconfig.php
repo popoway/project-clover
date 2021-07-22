@@ -35,7 +35,7 @@
           else {
           ?>
           <p>点击下方安装按钮以添加 Project Clover 到您的主屏幕。</p>
-          <button type="button" class="btn btn-primary" onclick="window.location.href = '<?php echo $site_url; ?>/assets/mobileconfig/clover_shortcut_signed.mobileconfig?ver=<?php echo CVER; ?>'">安装</button>
+          <button type="button" class="btn btn-primary" onclick="window.location.href = '<?php echo PC_SITEURL; ?>/assets/mobileconfig/clover_shortcut_signed.mobileconfig?ver=<?php echo PC_VER; ?>'">安装</button>
           <?php
           }
           ?>

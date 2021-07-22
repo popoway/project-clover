@@ -1,9 +1,5 @@
 <?php
-require(__DIR__."/../config.php");
-require(__DIR__."/../helper.php");
-
-# Start the session
-session_start();
+require("index.php");
 
 # Reject invalid request
 if ( !($_SERVER['REQUEST_METHOD'] == 'POST') ) {
@@ -26,13 +22,12 @@ else {
   $authuser = $_POST["authuser"];
   $password = $_POST["password"];
 
-  $sqlite3_filename = __DIR__."/../" . $sqlite3_filename;
-  $db = new SQLite3($sqlite3_filename, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
-  $sql = 'SELECT * FROM "users" WHERE authuser = ' . $authuser . ' ORDER BY "created" DESC LIMIT 1';
-  $statement = $db->prepare($sql);
-  $result = $statement->execute();
+  $stmt = $conn->prepare("SELECT * FROM $db_users WHERE authuser = :authuser ORDER BY created DESC LIMIT 1");
+  $stmt->bindParam(':authuser', $authuser);
 
-  while ($user = $result->fetchArray(SQLITE3_ASSOC)){
+  $stmt->execute();
+
+  while ($user = $stmt->fetch(PDO::FETCH_ASSOC)){
     if($user["password"] == $password) {
       # 0 - Password is correct
       $_SESSION["signedin"] = true;
@@ -49,5 +44,7 @@ else {
   # 4 - Authuser does not exist
   echo 4;
   return 4;
+
+  $conn = null;
 }
 ?>
