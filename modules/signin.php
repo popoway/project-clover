@@ -16,10 +16,10 @@
             </div>
           </div>
           <form id="signinPassword" novalidate>
-            <input type="hidden" id="signinInputAuthuser" name="authuser" value="4869">
+            <input type="text" id="signinInputAuthuser" name="authuser" value="4869" placeholder="Username" autocomplete="username">
             <div class="form-group">
               <label class="sr-only" for="signinInputPassword">Password</label>
-              <input type="password" class="form-control" id="signinInputPassword" name="password" placeholder="Password 🔑" required>
+              <input type="password" class="form-control" id="signinInputPassword" name="password" placeholder="Password 🔑" autocomplete="current-password" required>
               <div class="invalid-feedback">Callback Error message</div>
             </div>
             <button type="submit" class="btn btn-primary">Sign in</button>

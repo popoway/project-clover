@@ -26,7 +26,7 @@ if (!isset($page_title)) $page_title = "Untitled";
 </head>
 <body>
   <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-transparent">
-    <a class="navbar-brand" href="#">🍀 <?php if (PC_ENV == "production") {echo "Project Clover";} else {echo PC_ENV . " " . $table_prefix;} ?></a>
+    <a class="navbar-brand" href="<?php echo PC_SITEURL; ?>/?page=home">🍀 <?php if (PC_ENV == "production") {echo "Project Clover";} else {echo PC_ENV . " " . $table_prefix;} ?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

@@ -133,7 +133,7 @@ function asyncPostUpload(evt) {
       if (result === "0") {
         const successButton = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>发表成功';
         document.querySelector(".btn-primary").innerHTML = successButton;
-        setTimeout(function(){ location.href = "/index.php?page=home"; }, 1000);
+        setTimeout(function(){ location.href = "/index.php?page=home"; }, 150);
       }
       else {
         document.querySelector("#mainInputHelp").style.removeProperty('display');
@@ -231,7 +231,7 @@ darkModeMQL.addEventListener("change", (e) => {
 })
 
 window.addEventListener("DOMContentLoaded", (event) => {
-  if (darkModeMQL) {
+  if (darkModeMQL.matches) {
     document.querySelector('nav').classList.replace("navbar-light", "navbar-dark");
     let buttons = document.querySelectorAll('button');
     for (let button of buttons) {

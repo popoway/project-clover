@@ -3,7 +3,7 @@
 /** visit: https://github.com/popoway/project-clover            */
 
 # Specify the app version.
-define("PC_VER", "2.0.0");
+define("PC_VER", "2.0.1");
 
 # Specify the runtime environment: staging, production
 define( 'PC_ENV', 'staging' );
