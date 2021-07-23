@@ -210,6 +210,36 @@ function asyncPostRemove(evt) {
   }
 }
 
+let darkModeMQL = window.matchMedia("(prefers-color-scheme: dark)");
+darkModeMQL.addEventListener("change", (e) => {
+  if (e.matches) {
+    /* Dark Mode on */
+    document.querySelector('nav').classList.replace("navbar-light", "navbar-dark");
+    let buttons = document.querySelectorAll('button');
+    for (let button of buttons) {
+      button.classList.replace("btn-outline-danger", "btn-danger");
+    }
+
+  } else {
+    /* Dark Mode off */
+    document.querySelector('nav').classList.replace("navbar-dark", "navbar-light");
+    let buttons = document.querySelectorAll('button');
+    for (let button of buttons) {
+      button.classList.replace("btn-danger", "btn-outline-danger");
+    }
+  }
+})
+
+window.addEventListener("DOMContentLoaded", (event) => {
+  if (darkModeMQL) {
+    document.querySelector('nav').classList.replace("navbar-light", "navbar-dark");
+    let buttons = document.querySelectorAll('button');
+    for (let button of buttons) {
+      button.classList.replace("btn-outline-danger", "btn-danger");
+    }
+  }
+});
+
 $(document).ready(function(){
   if (!moduleExists("signin")) {
     document.querySelector(".navbar-text a").addEventListener("click", asyncSignout, false);

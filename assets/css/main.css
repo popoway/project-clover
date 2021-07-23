@@ -8,6 +8,11 @@ h2 {
   font-weight: 400;
 }
 
+nav {
+  backdrop-filter: blur(10px);
+  box-shadow: -1px 10px 10px 0px rgba(0,0,0,0.2);
+}
+
 #navbarUsername {
   font-weight: bold;
 }
@@ -60,4 +65,15 @@ h2 {
 
 .feed-content {
   white-space: pre-wrap;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000;
+    color: #DEDAD6;
+  }
+  .form-control, .form-control:focus {
+    background-color: #000;
+    color: #B6AFA8;
+  }
 }

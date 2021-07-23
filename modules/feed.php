@@ -31,18 +31,20 @@ require(__DIR__."/../api/index.php");
               <td title="Post composed on <?php echo $isoDateString; ?>" class="feed-date"><?php echo $isoDateString; ?></td>
             </tr>
             <tr>
-              <td class="feed-content-left"></td>
-              <td title="Post Content" class="feed-content"><?php echo $post["content"]; ?></td>
+              <td class="feed-content-left" colspan="1"></td>
+              <td title="Post Content" class="feed-content" colspan="2"><?php echo $post["content"]; ?></td>
             </tr>
             <tr>
-              <td colspan="2" class="feed-actions">
-                <button type="button" class="btn btn-primary btn-sm" disabled>Like</button>
-                <button type="button" class="btn btn-primary btn-sm" disabled>Comment</button>
-                <?php if ($post["authuser"] == $_SESSION["authuser"]) {?>
-                <button type="button" class="btn btn-danger btn-sm feed-action-remove">Remove</button>
-                <?php } else {?>
-                <button type="button" class="btn btn-danger btn-sm feed-action-remove" disabled>Remove</button>
-                <?php } ?>
+              <td class="feed-actions" colspan="3">
+                <div class="btn-group d-flex" role="group" aria-label="Post Actions">
+                  <button type="button" class="btn btn-outline-primary btn-sm w-100" disabled>Like</button>
+                  <button type="button" class="btn btn-outline-primary btn-sm w-100" disabled>Comment</button>
+                  <?php if ($post["authuser"] == $_SESSION["authuser"]) {?>
+                  <button type="button" class="btn btn-outline-danger btn-sm w-100 feed-action-remove">Remove</button>
+                  <?php } ?>
+                </div>
+              </td>
+              <td class="feed-actions">
               </td>
             </tr>
           </table>
