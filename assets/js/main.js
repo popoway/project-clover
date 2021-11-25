@@ -250,8 +250,8 @@ $(document).ready(function(){
     for (let avatar of avatars) {
       avatar.addEventListener("click", authuserSpecifier);
       avatar.addEventListener("keyup", (event) => {
-        // Number 13 is the "Enter" key on the keyboard
-        if (event.keyCode === 13) {
+        // 13 => (Enter) , 32 => (space) key on the keyboard
+        if (event.keyCode === 13 || event.keyCode === 32) {
           event.preventDefault();
           event.target.querySelector("span").click();
         }

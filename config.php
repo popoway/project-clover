@@ -19,7 +19,6 @@ elseif (PC_ENV == "production") {
 # Define CDN URL
 define( 'PC_CDNURL', 'https://static.popoway.me/ajax/libs' );
 
-# Specify the location and filename of the SQLite3 database
 # MySQL settings - You can get this info from your web host
 /** The name of the database for project-clover */
 define( 'DB_NAME', 'project_clover' );

@@ -1,4 +1,6 @@
 <?php
+require_once("config.php");
+
 function getSqliteVersion() {
   if (extension_loaded('pdo_sqlite') && extension_loaded('sqlite3')) return "enabled";
   else return "not installed";
@@ -65,4 +67,11 @@ function currentPageName($page) {
       return null;
       break;
   }
+}
+
+function loadResourceFrom($where, $what) {
+  $enver = PC_VER;
+  if (PC_ENV != "production") $enver = md5(uniqid());
+  if ($where == "cdn") return PC_CDNURL . $what;
+  else if ($where == "site") return PC_SITEURL . $what . "?ver=" . $enver;
 }

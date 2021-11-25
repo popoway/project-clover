@@ -1,13 +1,25 @@
 <?php
-require("config.php");
-require("helper.php");
+require_once("config.php");
+require_once("helper.php");
+
+# Set error reporting level
+if (PC_ENV != 'production') {
+  error_reporting(E_ALL);
+  ini_set("display_errors", 1);
+} 
+else {
+  error_reporting(0);
+  ini_set("display_errors", 0);
+}
 
 # Start the session
 session_start();
 
 # Define authuser (0,1)
-$signedin = $_SESSION['signedin'];
-$authuser = $_SESSION['authuser'];
+if (!empty($_SESSION)) {
+  $signedin = $_SESSION['signedin'];
+  $authuser = $_SESSION['authuser'];
+}
 
 # Define current page (home,goals.dates)
 $page = $_GET['page'];

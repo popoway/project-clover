@@ -12,16 +12,16 @@ if (!isset($page_title)) $page_title = "Untitled";
   <meta name="keywords" content="Ming, Yeshan, love, relationship, goals">
   <meta name="author" content="popoway">
   <!-- Load fav and touch icons -->
-  <link rel="shortcut icon" href="<?php echo PC_SITEURL; ?>/assets/img/Icon-60@3x.png?ver=<?php echo PC_VER; ?>">
+  <link rel="shortcut icon" href="<?php echo loadResourceFrom('site', '/assets/img/Icon-60@3x.png'); ?>">
   <!-- iOS integration -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Project Clover">
   <meta name="format-detection" content="telephone=no">
-  <link rel="apple-touch-icon" sizes="192x192" href="/assets/img/touchicon_192px.png?ver=<?php echo PC_VER; ?>">
+  <link rel="apple-touch-icon" sizes="192x192" href="<?php echo loadResourceFrom('site', '/assets/img/touchicon_192px.png'); ?>">
 
-  <link rel="stylesheet" href="<?php echo PC_CDNURL; ?>/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
-  <link rel="stylesheet" href="<?php echo PC_SITEURL; ?>/assets/css/main.css?ver=<?php echo PC_VER; ?>">
+  <link rel="stylesheet" href="<?php echo loadResourceFrom('cdn', '/bootstrap/4.4.1/css/bootstrap.min.css'); ?>" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="<?php echo loadResourceFrom('site', '/assets/css/main.css'); ?>">
   <title><?php echo $page_title; ?> - Project Clover</title>
 </head>
 <body>
