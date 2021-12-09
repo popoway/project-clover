@@ -18,7 +18,7 @@ require(__DIR__."/../api/index.php");
           <table id="feedPost_<?php echo $post["id"]; ?>" class="feed-table" tabindex="0">
             <tr>
               <th rowspan="2" class="feed-avatar">
-                <img src="<?php echo PC_SITEURL; ?>/assets/img/authuser_<?php echo $post["authuser"]; ?>.jpg?ver=<?php echo PC_VER; ?>" title="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" alt="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" class="img-thumbnail rounded" width="72">
+                <img src="<?php echo loadResourceFrom('site', '/assets/img/authuser_' . $post["authuser"] . '.jpg'); ?>" title="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" alt="Avatar of <?php echo currentAuthuserName($post["authuser"]); ?>" class="img-thumbnail rounded" width="72">
               </th>
               <th><h3 class="feed-username" title="Post sent by <?php echo currentAuthuserName($post["authuser"]); ?>"><?php echo currentAuthuserName($post["authuser"]); ?></h3></th>
             </tr>
@@ -44,7 +44,24 @@ require(__DIR__."/../api/index.php");
                   <?php } ?>
                 </div>
               </td>
-              <td class="feed-actions">
+            </tr>
+            <tr>
+              <td class="feed-likes" colspan="3">
+                <?php
+                $stmt2 = $conn->prepare("SELECT * FROM $db_posts_likes WHERE id IN ( SELECT MAX(id) FROM $db_posts_likes WHERE post_id = " . $post['id'] . " GROUP BY authuser) ORDER BY created ASC");
+                $stmt2->execute();
+                while ($comment = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                  if ($comment["liked"] == 1) {
+                    ?>
+                    <span class="feed-likes-authuser-<?php echo $comment["authuser"] ?>">
+                    <?php
+                    echo "💙 " . currentAuthuserName($comment["authuser"]);
+                    ?>
+                    </span>
+                    <?php
+                  }
+                ?>
+                <?php } ?>
               </td>
             </tr>
           </table>

@@ -210,6 +210,65 @@ function asyncPostRemove(evt) {
   }
 }
 
+function currentAuthuserId() {
+  let name = document.getElementById("mainFormName").textContent;
+  switch (name) {
+    case "Yeshan":
+      return 0;
+    case "Ming":
+      return 1;
+    default:
+      return -1;
+  }
+}
+
+// $0.getElementsByClassName("feed-likes-authuser-")
+function asyncPostLike(evt) {
+  evt.preventDefault();
+  const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
+  const post_id = currentPost.getAttribute("id").replace(/[^0-9]/g, '');
+  console.log("Try to like/unlike post_id: " + post_id);
+  $.ajax({
+    url: "/api/postLike.php", type: "POST", data: { post_id: post_id, add_like: 0 },
+    success: function (result) { 
+      if (result === "0") {
+        currentPost.style.display = "none";
+      }
+      else {
+        let msg = 'Callback Error message';
+        if (result === "1") {
+          msg = 'Wrong Request Method';
+        }
+        else if (result === "2") {
+          msg = 'You did not sign in. Why not sign in and try again?';
+        }
+        else if (result === "3") {
+          msg = 'mainInput is missing on the server side.';
+        }
+        else if (result === "4") {
+          msg = 'The post_id you requested is invalid. Try reload the page.';
+        }
+        else {
+          msg = `Error: ${result}`;
+        }
+        alert(msg);
+        console.log(msg);
+      }
+    },
+    error: function (xhr) {
+      alert("A server side error occured: " + xhr.status + " " + xhr.statusText + "\nPlease try again later.");
+    }
+  });
+}
+
+/**
+ * Checks whether the app is run as webapp in iOS.
+ * @returns {boolean} Boolean value indicating whether the app is run as webapp in iOS.
+ */
+function webappDetect() {
+  return (("standalone" in window.navigator) && window.navigator.standalone);
+}
+
 let darkModeMQL = window.matchMedia("(prefers-color-scheme: dark)");
 darkModeMQL.addEventListener("change", (e) => {
   if (e.matches) {

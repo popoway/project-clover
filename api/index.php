@@ -12,5 +12,7 @@ $conn->exec($stmt);
 
 // set mysql table prefix
 $db_posts = $table_prefix . "posts";
+$db_posts_comments = $table_prefix . "posts_comments";
 $db_posts_hidden = $table_prefix . "posts_hidden";
+$db_posts_likes = $table_prefix . "posts_likes";
 $db_users = $table_prefix . "users";

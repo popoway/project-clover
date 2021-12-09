@@ -15,14 +15,29 @@ if (!isset($page_title)) $page_title = "Untitled";
   <link rel="shortcut icon" href="<?php echo loadResourceFrom('site', '/assets/img/Icon-60@3x.png'); ?>">
   <!-- iOS integration -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Project Clover">
+  <meta name="theme-color" content="white" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="black" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-status-bar-style" media="(prefers-color-scheme: light)" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" media="(prefers-color-scheme: dark)" content="dark-content" />
+  <meta name="apple-mobile-web-app-title" content="<?php if (PC_ENV == "production") {echo "Project Clover";} else {echo "pc_" . PC_ENV;} ?>">
   <meta name="format-detection" content="telephone=no">
   <link rel="apple-touch-icon" sizes="192x192" href="<?php echo loadResourceFrom('site', '/assets/img/touchicon_192px.png'); ?>">
-
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphone5_splash.png'); ?>" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphone6_splash.png'); ?>" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphoneplus_splash.png'); ?>" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphonex_splash.png'); ?>" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphonexr_splash.png'); ?>" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphonexsmax_splash.png'); ?>" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphone12mini_splash.png'); ?>" media="(device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphone12pro_splash.png'); ?>" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/iphone12promax_splash.png'); ?>" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/ipad_splash.png'); ?>" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/ipadpro1_splash.png'); ?>" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/ipadpro3_splash.png'); ?>" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="<?php echo loadResourceFrom('site', '/assets/img/splashscreens/ipadpro2_splash.png'); ?>" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
   <link rel="stylesheet" href="<?php echo loadResourceFrom('cdn', '/bootstrap/4.4.1/css/bootstrap.min.css'); ?>" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
   <link rel="stylesheet" href="<?php echo loadResourceFrom('site', '/assets/css/main.css'); ?>">
-  <title><?php echo $page_title; ?> - Project Clover</title>
+  <title><?php echo $page_title; ?> - Project Clover <?php if (PC_ENV != "production") {echo PC_ENV;} ?></title>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-transparent">
@@ -49,7 +64,7 @@ if (!isset($page_title)) $page_title = "Untitled";
             <a class="dropdown-item" href="https://github.com/popoway/project-clover/wiki/TODO" target="_blank">产品经理的需求</a>
             <a class="dropdown-item" href="https://github.com/popoway/project-clover/releases" target="_blank">发行日志</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="./?authuser=<?php echo $authuser; ?>&page=mobileconfig">Install iOS app</a>
+            <a class="dropdown-item" href="./?page=mobileconfig">Install iOS app</a>
           </div>
         </li>
         <li class="nav-item">
@@ -61,7 +76,7 @@ if (!isset($page_title)) $page_title = "Untitled";
         </li>
         <?php } ?>
       </ul>
-      <?php if ($_SESSION["signedin"]) {
+      <?php if ( isset($_SESSION["signedin"]) && $_SESSION["signedin"] ) {
         ?>
       <span class="navbar-text">
         Signed in as
