@@ -23,7 +23,7 @@ else if ( intval($_POST["post_id"]) < 1 ) {
   return 4;
 }
 else if ( !isset($_POST["add_like"]) || empty(trim($_POST["add_like"])) ) {
-  # 5 - Empty Like Action: 1 = Add Like, 2 = Remove Like
+  # 5 - Empty Like Action: 1 = Add Like, 0 = Remove Like
   echo 5;
   return 5;
 }
@@ -42,12 +42,13 @@ else {
   $stmt = $conn->prepare("INSERT INTO $db_posts_likes (post_id, liked, authuser, created, ip_address, user_agent)
           VALUES (:post_id, :liked, :authuser, :created, :ip_address, :user_agent)");
   $stmt->bindParam(':post_id', $post_id);
-  $stmt->bindParam(':liked', $add_like);
+  $stmt->bindParam(':liked', $add_like, PDO::PARAM_INT);
   $stmt->bindParam(':authuser', $authuser);
   $stmt->bindParam(':created', gmdate('Y-m-d H:i:s'));
   $stmt->bindParam(':ip_address', $ip_address);
   $stmt->bindParam(':user_agent', $user_agent);
-
+  var_dump($post_id);
+  var_dump($add_like);
   $stmt->execute();
 
   $conn = null;

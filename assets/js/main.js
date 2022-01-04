@@ -171,7 +171,7 @@ function wordCountOnReset(){
 function asyncPostRemove(evt) {
   evt.preventDefault();
   if (confirm("Are you sure you want to remove this post? This action cannot be undone.")) {
-    const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
+    const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement.parentElement;
     const post_id = currentPost.getAttribute("id").replace(/[^0-9]/g, '');
     console.log("Try to remove post_id: " + post_id);
     $.ajax({url: "/api/postHide.php", type: "POST", data: {post_id: post_id},
@@ -225,14 +225,22 @@ function currentAuthuserId() {
 // $0.getElementsByClassName("feed-likes-authuser-")
 function asyncPostLike(evt) {
   evt.preventDefault();
-  const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
+  const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement.parentElement;
   const post_id = currentPost.getAttribute("id").replace(/[^0-9]/g, '');
-  console.log("Try to like/unlike post_id: " + post_id);
+  let action = null, add_like = null;
+  if (currentPost.getElementsByClassName(`feed-likes-authuser-${currentAuthuserId()}`).length > 0) {
+    action = "unlike";
+    add_like = 0;
+  } else {
+    action = "like";
+    add_like = 1;
+  }
+  console.log(`Try to ${action} post_id: ${post_id}`);
   $.ajax({
-    url: "/api/postLike.php", type: "POST", data: { post_id: post_id, add_like: 0 },
+    url: "/api/postLike.php", type: "POST", data: { post_id: post_id, add_like: add_like },
     success: function (result) { 
       if (result === "0") {
-        currentPost.style.display = "none";
+        window.location.reload();
       }
       else {
         let msg = 'Callback Error message';
@@ -343,6 +351,10 @@ $(document).ready(function(){
     $(".feed-date").each(function(index){
       $(this).text(localizeFeedDate($(this).text()));
     });
+    const likeButton = document.querySelectorAll(".feed-action-like");
+    for (let i = 0; i < likeButton.length; i++) {
+      likeButton[i].addEventListener("click", asyncPostLike);
+    }
     const removeButton = document.querySelectorAll(".feed-action-remove");
     for (let i = 0; i < removeButton.length; i++) {
       removeButton[i].addEventListener("click", asyncPostRemove);

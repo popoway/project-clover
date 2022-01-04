@@ -37,8 +37,8 @@ require(__DIR__."/../api/index.php");
             <tr>
               <td class="feed-actions" colspan="3">
                 <div class="btn-group d-flex" role="group" aria-label="Post Actions">
-                  <button type="button" class="btn btn-outline-primary btn-sm w-100" disabled>Like</button>
-                  <button type="button" class="btn btn-outline-primary btn-sm w-100" disabled>Comment</button>
+                  <button type="button" class="btn btn-outline-primary btn-sm w-100 feed-action-like">Like</button>
+                  <button type="button" class="btn btn-outline-primary btn-sm w-100 feed-action-comment" disabled>Comment</button>
                   <?php if ($post["authuser"] == $_SESSION["authuser"]) {?>
                   <button type="button" class="btn btn-outline-danger btn-sm w-100 feed-action-remove">Remove</button>
                   <?php } ?>
