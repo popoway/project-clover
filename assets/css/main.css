@@ -11,6 +11,7 @@ h2 {
 nav {
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%);
   box-shadow: -1px 10px 10px 0px rgba(0,0,0,0.2);
 }
 
@@ -75,6 +76,9 @@ nav {
   body {
     background-color: #000;
     color: #DEDAD6;
+  }
+  nav {
+    background: linear-gradient(180deg, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
   }
   .form-control, .form-control:focus {
     background-color: #000;
