@@ -269,6 +269,12 @@ function asyncPostLike(evt) {
   });
 }
 
+function asyncPostLoad() {
+  fetch('/api/asyncLoad.php')
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
+
 /**
  * Checks whether the app is run as webapp in iOS.
  * @returns {boolean} Boolean value indicating whether the app is run as webapp in iOS.
@@ -305,6 +311,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       button.classList.replace("btn-outline-danger", "btn-danger");
     }
   }
+  asyncPostLoad();
 });
 
 $(document).ready(function(){

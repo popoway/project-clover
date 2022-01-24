@@ -13,7 +13,10 @@ require(__DIR__."/../api/index.php");
           <?php
           $stmt = $conn->prepare("SELECT * FROM $db_posts WHERE id NOT IN (SELECT post_id FROM $db_posts_hidden) ORDER BY created DESC");
           $stmt->execute();
+          $i = 0;
           while ($post = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $i++;
+            if ($i > 10) break;
           ?>
           <table id="feedPost_<?php echo $post["id"]; ?>" class="feed-table" tabindex="0">
             <tr>

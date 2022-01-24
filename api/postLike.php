@@ -22,7 +22,7 @@ else if ( intval($_POST["post_id"]) < 1 ) {
   echo 4;
   return 4;
 }
-else if ( !isset($_POST["add_like"]) || empty(trim($_POST["add_like"])) ) {
+else if ( !isset($_POST["add_like"]) || is_null(trim($_POST["add_like"])) ) {
   # 5 - Empty Like Action: 1 = Add Like, 0 = Remove Like
   echo 5;
   return 5;
@@ -47,8 +47,7 @@ else {
   $stmt->bindParam(':created', gmdate('Y-m-d H:i:s'));
   $stmt->bindParam(':ip_address', $ip_address);
   $stmt->bindParam(':user_agent', $user_agent);
-  var_dump($post_id);
-  var_dump($add_like);
+
   $stmt->execute();
 
   $conn = null;
