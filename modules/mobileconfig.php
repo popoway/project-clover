@@ -34,8 +34,13 @@
           }
           else {
           ?>
-          <p>点击下方安装按钮以添加 Project Clover 到您的主屏幕。</p>
-          <button type="button" class="btn btn-primary" onclick="window.location.href = '<?php echo PC_SITEURL; ?>/assets/mobileconfig/clover_shortcut_signed.mobileconfig?ver=<?php echo PC_VER; ?>'">安装</button>
+          <p>To install Project Clover to your Home Screen, follow the steps below:</p>
+          <ol>
+            <li>Tap the Share button in Safari on your screen</li>
+            <li>Tap "Add to Home Screen"</li>
+            <li>Tap "Add"</li>
+            <li>You can now access Project Clover on your Home Screen without opening Safari.</li>
+          </ol>
           <?php
           }
           ?>
