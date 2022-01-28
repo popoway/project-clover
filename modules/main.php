@@ -1,4 +1,17 @@
   <section id="main">
+    <?php
+    $t = $_SERVER['HTTP_USER_AGENT'];
+    if (strpos($t, 'Mac OS X') && strpos($t, 'iPhone OS') && !strpos($t, 'MicroMessenger') && !strpos($t, 'Chrome') && !strpos($t, 'CriOS')) {
+    ?>
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+      <strong>Add Project Clover to Home Screen!</strong> For easier access. Simply tap Share button below (iPhone) or above (iPad). <a href="/?page=mobileconfig" class="alert-link">Read me</a> for more information.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <?php
+    }
+    ?>
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-3">

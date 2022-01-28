@@ -1,3 +1,5 @@
+let posts = [];
+
 function getUrlVars() {
   var vars = {};
   var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -210,8 +212,8 @@ function asyncPostRemove(evt) {
   }
 }
 
-function currentAuthuserId() {
-  let name = document.getElementById("mainFormName").textContent;
+function currentAuthuserId(name) {
+  if (name === null || name === undefined) name = document.getElementById("mainFormName").textContent;
   switch (name) {
     case "Yeshan":
       return 0;
@@ -219,6 +221,18 @@ function currentAuthuserId() {
       return 1;
     default:
       return -1;
+  }
+}
+
+function currentAuthuserName(authuser) {
+  if (authuser === null || authuser === undefined) return document.getElementById("mainFormName").textContent;
+  switch (parseInt(authuser)) {
+    case 0:
+      return "Yeshan";
+    case 1:
+      return "Ming";
+    default:
+      return null;
   }
 }
 
@@ -269,10 +283,106 @@ function asyncPostLike(evt) {
   });
 }
 
-function asyncPostLoad() {
-  fetch('/api/asyncLoad.php')
+/**
+ * Asynchronously load the post from the API and add to / update global posts[] and page.
+ * @param {integer} skip The number of post skipped before the first loaded post.
+ * @param {integer} limit The number of post loaded in total.
+ */
+function asyncPostLoad(skip, limit) {
+  fetch(`/api/asyncLoad.php?skip=${skip}&limit=${limit}`)
     .then(response => response.json())
-    .then(data => console.log(data));
+    .then(data => {
+      const loadedPosts = data.content;
+      for (let post of loadedPosts) {
+        post.createdDateObject = new Date(`${post.created} UTC`); // UTC Conversion to JS Object
+        const doesPostExist = (element) => element.id === post.id;
+        const i = posts.findIndex(doesPostExist);
+        if (i !== -1) {
+          posts.splice(i, 1); // remove one item, starting i
+        }
+        posts.push(post);
+
+        let postTable = document.createElement("table");
+        postTable.classList.add("feed-table");
+        postTable.setAttribute("tabindex", "0");
+        postTable.setAttribute("id", `feedPost_${post.id}`);
+        // Post table authuser - row1
+        let tr1 = document.createElement("tr");
+        let th1 = document.createElement("th");
+        th1.setAttribute("rowspan", "2");
+        th1.classList.add("feed-avatar");
+        let img = document.createElement("img");
+        img.setAttribute("src", `/assets/img/authuser_${post.authuser}.jpg`);
+        img.setAttribute("title", `Avatar of ${currentAuthuserName(post.authuser)}`);
+        img.setAttribute("alt", `Avatar of ${currentAuthuserName(post.authuser)}`);
+        img.setAttribute("class", "img-thumbnail rounded");
+        img.setAttribute("width", "72");
+        tr1.appendChild(th1);
+        th1.appendChild(img);
+        let th2 = document.createElement("th");
+        let h3 = document.createElement("h3");
+        h3.classList.add("feed-username");
+        h3.setAttribute("title", `Post sent by ${currentAuthuserName(post.authuser)}`);
+        h3.append(currentAuthuserName(post.authuser));
+        th2.appendChild(h3);
+        tr1.appendChild(th2);
+        postTable.appendChild(tr1);
+        // Post table date - row2
+        let tr2 = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let datestr = localizeFeedDate(post.createdDateObject.toISOString());
+        td1.setAttribute("title", `Post composed on ${datestr} (${post.createdDateObject.toString()})`);
+        td1.classList.add("feed-date");
+        td1.append(datestr);
+        tr2.appendChild(td1);
+        postTable.appendChild(tr2);
+        // Post table content - row3
+        let tr3 = document.createElement("tr");
+        let td2 = document.createElement("td");
+        td2.classList.add("feed-content-left");
+        td2.setAttribute("colspan", "1");
+        tr3.appendChild(td2);
+        let td3 = document.createElement("td");
+        td3.setAttribute("title", "Post Content");
+        td3.classList.add("feed-content");
+        td3.setAttribute("colspan", "2");
+        td3.append(post.content);
+        tr3.appendChild(td3);
+        postTable.appendChild(tr3);
+        // Post table actions - row4
+        let tr4 = document.createElement("tr");
+        let td4 = document.createElement("td");
+        td4.classList.add("feed-actions");
+        td4.setAttribute("colspan", "3");
+        let div = document.createElement("div");
+        div.setAttribute("class", "btn-group d-flex");
+        div.setAttribute("role", "group");
+        div.setAttribute("aria-label", "Post Actions");
+        let button1 = document.createElement("button");
+        button1.setAttribute("class", "btn btn-outline-primary btn-sm w-100 feed-action-like");
+        button1.append("Like");
+        button1.addEventListener("click", asyncPostLike);
+        div.appendChild(button1);
+        let button2 = document.createElement("button");
+        button2.setAttribute("class", "btn btn-outline-primary btn-sm w-100 feed-action-comment");
+        button2.setAttribute("disabled", "");
+        button2.append("Comment");
+        div.appendChild(button2);
+        if (currentAuthuserName() !== post.authuser) {
+          let button3 = document.createElement("button");
+          button3.setAttribute("class", "btn btn-outline-danger btn-sm w-100 feed-action-remove");
+          button3.append("Remove");
+          button3.addEventListener("click", asyncPostRemove);
+          div.appendChild(button3);
+        }
+        td4.appendChild(div);
+        tr4.appendChild(td4);
+        postTable.appendChild(tr4);
+
+        document.querySelector("#feed").querySelector(".col-lg-6").appendChild(postTable);
+      }
+
+    });
 }
 
 /**
@@ -311,7 +421,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       button.classList.replace("btn-outline-danger", "btn-danger");
     }
   }
-  asyncPostLoad();
+  asyncPostLoad(0, 10);
 });
 
 $(document).ready(function(){

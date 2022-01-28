@@ -16,7 +16,7 @@ require(__DIR__."/../api/index.php");
           $i = 0;
           while ($post = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $i++;
-            if ($i > 10) break;
+            if ($i > 5) break;
           ?>
           <table id="feedPost_<?php echo $post["id"]; ?>" class="feed-table" tabindex="0">
             <tr>
@@ -72,6 +72,10 @@ require(__DIR__."/../api/index.php");
           }
           $conn = null;
           ?>
+          <div class="d-flex align-items-center feed-infinite-scroll">
+            <strong>Loading...</strong>
+            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+          </div>
         </div>
         <div class="col-12 col-lg-3">
         </div>
