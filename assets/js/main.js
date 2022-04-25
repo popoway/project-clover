@@ -1,7 +1,7 @@
 /**
  * Array containing structured posts requested from API.
  */
-let posts = [];
+let posts = [], postsLikes = [];
 /**
  * Array denoting the range of currently loaded posts on page, as postsIndex[min, max].
  * @param {integer} min The smallest index of posts.
@@ -183,9 +183,9 @@ function wordCountOnReset(){
 function asyncPostRemove(evt) {
   evt.preventDefault();
   if (confirm("Are you sure you want to remove this post? This action cannot be undone.")) {
-    const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+    const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
     const post_id = currentPost.getAttribute("id").replace(/[^0-9]/g, '');
-    console.log("Try to remove post_id: " + post_id);
+    // console.log("Try to remove post_id: " + post_id);
     $.ajax({url: "/api/postHide.php", type: "POST", data: {post_id: post_id},
     success: function(result){
       if (result === "0") {
@@ -249,7 +249,7 @@ function currentAuthuserName(authuser) {
 // $0.getElementsByClassName("feed-likes-authuser-")
 function asyncPostLike(evt) {
   evt.preventDefault();
-  const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+  const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
   const post_id = currentPost.getAttribute("id").replace(/[^0-9]/g, '');
   let action = null, add_like = null;
   if (currentPost.getElementsByClassName(`feed-likes-authuser-${currentAuthuserId()}`).length > 0) {
@@ -293,6 +293,14 @@ function asyncPostLike(evt) {
   });
 }
 
+function asyncPostLikeLoad() {
+  fetch(`/api/asyncLoad.php?type=post_like`)
+    .then(response => response.json())
+    .then(data => {
+      postsLikes = data.payload;
+    });
+}
+
 /**
  * Asynchronously load the post from the API and add to / update global posts[] and page.
  * @param {integer} skip The number of post skipped before the first loaded post.
@@ -305,9 +313,9 @@ function asyncPostLoad(skip, limit) {
     fetch(`/api/asyncLoad.php?skip=${skip}&limit=${limit}`)
       .then(response => response.json())
       .then(data => {
-        const loadedPosts = data.content;
+        const loadedPosts = data.payload;
         for (let post of loadedPosts) {
-          post.createdDateObject = new Date(`${post.created} UTC`); // UTC Conversion to JS Object
+          post.createdDateObject = new Date(`${post.created.substr(0, 10)}T${post.created.substr(11, 8)}Z`); // UTC Conversion to JS Object
           // Update existing post stored in posts[], if applicable
           const doesPostExist = (element) => element.id === post.id;
           const i = posts.findIndex(doesPostExist);
@@ -388,7 +396,7 @@ function asyncPostLoad(skip, limit) {
           button2.setAttribute("disabled", "");
           button2.append("Comment");
           div.appendChild(button2);
-          if (currentAuthuserName() !== post.authuser) {
+          if (currentAuthuserId() === parseInt(post.authuser)) {
             let button3 = document.createElement("button");
             button3.setAttribute("class", "btn btn-outline-danger btn-sm w-100 feed-action-remove");
             button3.append("Remove");
@@ -398,6 +406,21 @@ function asyncPostLoad(skip, limit) {
           td4.appendChild(div);
           tr4.appendChild(td4);
           postTable.appendChild(tr4);
+          // Post likes - row5
+          let tr5 = document.createElement("tr");
+          let td5 = document.createElement("td");
+          td5.classList.add("feed-likes");
+          td5.setAttribute("colspan", "3");
+          for (let like of postsLikes) {
+            if (like.post_id === post.id && parseInt(like.liked) != 0){
+              let span = document.createElement("span");
+              span.setAttribute("class", `feed-likes-authuser-${like.authuser}`);
+              span.textContent = `💙 ${currentAuthuserName(parseInt(like.authuser))}`;
+              td5.appendChild(span);
+            }
+          }
+          tr5.appendChild(td5);
+          postTable.appendChild(tr5);
 
           document.querySelector("#feed").querySelector(".col-lg-6").insertBefore(postTable, document.querySelector(".feed-infinite-scroll"));
 
@@ -444,11 +467,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
   }
  if (getUrlParam("page", null) == "home") {
+   asyncPostLikeLoad();
+   asyncPostLoad(0, 10);
    if (document.querySelector(".feed-infinite-scroll") != null) {
      $(window).scroll(function () {
        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
          setTimeout(() => {asyncPostLoad(posts.length, 10)}, Math.floor(Math.random() * 1000));
-         if (postsIndex[0] == 1) {
+         if (postsIndex[0] == 1 && document.querySelector(".feed-infinite-scroll") !== null) {
            document.querySelector(".feed-infinite-scroll").remove();
          }
        }
