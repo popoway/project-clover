@@ -69,6 +69,7 @@ nav {
 }
 
 .feed-content {
+  overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
 
