@@ -1,4 +1,7 @@
 {
+    "name": "popoway/project-clover",
+    "description": "Who's the Queen of vday20?",
+    "license": "MIT",
     "require": {
         "monolog/monolog": "^2.3",
         "phpmailer/phpmailer": "^6.5"
