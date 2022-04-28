@@ -32,7 +32,7 @@ jobs:
         with:
           path: ./VERSION
           contents: |
-            echo "${{ steps.bumpr.outputs.next_version }}"
+            ${{ steps.bumpr.outputs.next_version }}
           write-mode: overwrite
 
       # Use the REST API to commit changes, so we get automatic commit signing
@@ -53,13 +53,13 @@ jobs:
             --field branch="$DESTINATION_BRANCH" \
             --field sha="$SHA"
 
-      # Update corresponding major and minor tag. e.g. Update v1 and v1.2 when releasing v1.2.3
-      - name: Update corresponding tag
-        uses: haya14busa/action-update-semver@v1
+      # Update corresponding signed major, minor, and patch tag.
+      - name: Push corresponding tag
+        uses: mathieudutour/github-tag-action@v6.0
         if: "!steps.bumpr.outputs.skip"
         with:
           github_token: ${{ secrets.github_token }}
-          tag: ${{ steps.bumpr.outputs.next_version }}
+          custom_tag: ${{ steps.bumpr.outputs.next_version }}
 
       # Get tag name.
       - name: Get tag name
@@ -79,7 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.tag.outputs.value }}
-          release_name: Release ${{ steps.tag.outputs.value }}
+          release_name: Project Clover ${{ steps.tag.outputs.value }}
           body: ${{ steps.bumpr.outputs.message }}
           draft: false
           prerelease: false
@@ -89,7 +89,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
       # Post bumpr status comment
       - name: Check release
         uses: haya14busa/action-bumpr@v1
+
+  post-release:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Create PR to keep develop branch up-to-date
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: master
+          base: develop
