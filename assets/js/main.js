@@ -26,10 +26,20 @@ function getUrlParam(parameter, defaultvalue){
   return urlparameter;
 }
 
+/**
+ * 
+ * @param {*} module 
+ * @returns 
+ */
 function moduleExists(module) {
   return document.querySelector(`#${module}`) != null;
 }
 
+/**
+ * Generate localized feed date string.
+ * @param {string} date Date string from API to parse.
+ * @returns Localized date string.
+ */
 function localizeFeedDate(date){
   var msec = Date.parse(date); // Parse date string to unix milliseconds
   var d = new Date(msec); // Then convert it to a date object
@@ -180,6 +190,10 @@ function wordCountOnReset(){
   $("#mainInputHelp").text("随便说点什么吧～😉");
 }
 
+/**
+ * Asynchronously remove a post.
+ * @param {*} evt The event which triggers this function.
+ */
 function asyncPostRemove(evt) {
   evt.preventDefault();
   if (confirm("Are you sure you want to remove this post? This action cannot be undone.")) {
@@ -222,6 +236,11 @@ function asyncPostRemove(evt) {
   }
 }
 
+/**
+ * Look up authuser by username.
+ * @param {string} name The username used to look up authuser id.
+ * @returns Authuser id. If no matching authuser is found, return -1.
+ */
 function currentAuthuserId(name) {
   if (name === null || name === undefined) name = document.getElementById("mainFormName").textContent;
   switch (name) {
@@ -234,6 +253,11 @@ function currentAuthuserId(name) {
   }
 }
 
+/**
+ * Look up username by authuser.
+ * @param {number} authuser The authuser id used to look up username.
+ * @returns Matching username. If no matching username is found, return null.
+ */
 function currentAuthuserName(authuser) {
   if (authuser === null || authuser === undefined) return document.getElementById("mainFormName").textContent;
   switch (parseInt(authuser)) {
@@ -246,7 +270,10 @@ function currentAuthuserName(authuser) {
   }
 }
 
-// $0.getElementsByClassName("feed-likes-authuser-")
+/**
+ * Asynchronously like a post.
+ * @param {*} evt The event which triggers this function.
+ */
 function asyncPostLike(evt) {
   evt.preventDefault();
   const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
@@ -293,6 +320,9 @@ function asyncPostLike(evt) {
   });
 }
 
+/**
+ * Asynchronously load post likes from the API and add to global postLikes[].
+ */
 function asyncPostLikeLoad() {
   fetch(`/api/asyncLoad.php?type=post_like`)
     .then(response => response.json())
@@ -466,20 +496,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
       button.classList.replace("btn-outline-danger", "btn-danger");
     }
   }
- if (getUrlParam("page", null) == "home") {
-   asyncPostLikeLoad();
-   asyncPostLoad(0, 10);
-   if (document.querySelector(".feed-infinite-scroll") != null) {
-     $(window).scroll(function () {
-       if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-         setTimeout(() => {asyncPostLoad(posts.length, 10)}, Math.floor(Math.random() * 1000));
-         if (postsIndex[0] == 1 && document.querySelector(".feed-infinite-scroll") !== null) {
-           document.querySelector(".feed-infinite-scroll").remove();
-         }
-       }
-     });
-   }
- }
+  if (getUrlParam("page", null) == "home") {
+    asyncPostLikeLoad();
+    asyncPostLoad(0, 10);
+    if (document.querySelector(".feed-infinite-scroll") != null) {
+      $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+          setTimeout(() => {asyncPostLoad(posts.length, 10)}, Math.floor(Math.random() * 1000));
+          if (postsIndex[0] == 1 && document.querySelector(".feed-infinite-scroll") !== null) {
+            document.querySelector(".feed-infinite-scroll").remove();
+          }
+        }
+      });
+    }
+  }
 });
 
 $(document).ready(function(){
