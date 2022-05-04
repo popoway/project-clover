@@ -16,7 +16,8 @@
             </div>
           </div>
           <form id="signinPassword" novalidate>
-            <input type="text" id="signinInputAuthuser" name="authuser" value="4869" placeholder="Username" autocomplete="username">
+            <input type="text" id="signinInputAuthuser" name="authuser" value="4869" placeholder="Username">
+            <!-- <input type="text" id="signinInputUsername" name="username" value="<?php echo currentAuthuserName($_SESSION["authuser"]); ?>" placeholder="Username" autocomplete="username"> -->
             <div class="form-group">
               <label class="sr-only" for="signinInputPassword">Password</label>
               <input type="password" class="form-control" id="signinInputPassword" name="password" placeholder="Password 🔑" autocomplete="current-password" required>

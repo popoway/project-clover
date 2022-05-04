@@ -22,7 +22,7 @@ nav {
 #signinPassword {
   display: none;
 }
-#signinInputAuthuser { 
+#signinInputAuthuser, #signinInputUsername { 
   display: none;
 }
 

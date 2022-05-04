@@ -153,15 +153,14 @@ function asyncChangePassword(evt) {
   if (!valid) return;
   else {
     // Form style before ajax
-    // document.querySelector("#signinInputPassword").disabled = true;
     document.querySelector(".btn-primary").disabled = true;
     const loadingButton = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Updating...';
     document.querySelector(".btn-primary").innerHTML = loadingButton;
     // ajax
-    const authuser = document.querySelector("#signinInputAuthuser").value;
-    const password = document.querySelector("#signinInputPassword").value;
+    const currentPassword = document.querySelector("#currentPassword").value;
+    const newPassword = document.querySelector("#newPassword").value;
     $.ajax({
-      url: "/api/signin.php", type: "POST", data: { authuser: authuser, password: password },
+      url: "/api/changePassword.php", type: "POST", data: { current_password: currentPassword, new_password: newPassword },
       success: function (result) {
         if (result === "0") {
           alert("Your password has been updated. Use your new password to sign in.")
@@ -177,13 +176,13 @@ function asyncChangePassword(evt) {
             msg = 'Wrong Request Method';
           }
           else if (result === "2") {
-            msg = 'You have already signed in. Maybe clear browser cookies and try again?';
+            msg = 'You have not already signed in. Maybe clear browser cookies and try again?';
           }
           else if (result === "3") {
-            msg = 'authuser / password is missing on the server side.';
+            msg = 'Current password is incorrect.';
           }
           else if (result === "4") {
-            msg = 'Authentication has failed due to incorrect password.';
+            msg = 'authuser / password is missing on the server side.';
           }
           else {
             msg = `Error: ${result}`;
