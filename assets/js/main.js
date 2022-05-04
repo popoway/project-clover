@@ -27,9 +27,9 @@ function getUrlParam(parameter, defaultvalue){
 }
 
 /**
- * 
- * @param {*} module 
- * @returns 
+ * Check if the specified module exists on the page.
+ * @param {string} module Name of the module.
+ * @returns True if the module exists, or false if the modue does not exist.
  */
 function moduleExists(module) {
   return document.querySelector(`#${module}`) != null;
@@ -116,7 +116,7 @@ function asyncSignin(evt) {
 }
 
 function asyncSignout(evt) {
-  evt.preventDefault();
+  if (evt != null || evt != undefined) evt.preventDefault();
   $.ajax({url: "/api/signout.php", type: "POST",
   success: function(result){
     location.href = "/index.php?page=signin&continue=" + getUrlParam('page', 'home') + "&signedout=1";
@@ -124,6 +124,78 @@ function asyncSignout(evt) {
   error: function(xhr){
     alert("A server side error occured: " + xhr.status + " " + xhr.statusText + "\nPlease try again later.");
   }});
+}
+
+function asyncChangePassword(evt) {
+  evt.preventDefault();
+  document.querySelector("#changePassword").classList.add('was-validated');
+  let valid = true;
+  if (document.querySelector("#currentPassword").value === "") {
+    document.querySelector("#currentPassword + .invalid-feedback").textContent = "Please enter current password.";
+    valid = false;
+  }
+  if (document.querySelector("#newPassword").value === "") {
+    document.querySelector("#newPassword + .invalid-feedback").textContent = "Please enter new password.";
+    valid = false;
+  }
+  if (document.querySelector("#confirmPassword").value === "") {
+    document.querySelector("#confirmPassword + .invalid-feedback").textContent = "Please confirm new password.";
+    valid = false;
+  }
+  if (document.querySelector("#confirmPassword").value != document.querySelector("#newPassword").value) {
+    document.querySelector("#changePassword").classList.remove('was-validated');
+    document.querySelector("#currentPassword").classList.add('is-valid');
+    document.querySelector("#newPassword").classList.add('is-invalid');
+    document.querySelector("#confirmPassword").classList.add('is-invalid');
+    document.querySelector("#confirmPassword + .invalid-feedback").textContent = "New password does not match confirm password.";
+    valid = false;
+  }
+  if (!valid) return;
+  else {
+    // Form style before ajax
+    // document.querySelector("#signinInputPassword").disabled = true;
+    document.querySelector(".btn-primary").disabled = true;
+    const loadingButton = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Updating...';
+    document.querySelector(".btn-primary").innerHTML = loadingButton;
+    // ajax
+    const authuser = document.querySelector("#signinInputAuthuser").value;
+    const password = document.querySelector("#signinInputPassword").value;
+    $.ajax({
+      url: "/api/signin.php", type: "POST", data: { authuser: authuser, password: password },
+      success: function (result) {
+        if (result === "0") {
+          alert("Your password has been updated. Use your new password to sign in.")
+          asyncSignout(null);
+        }
+        else {
+          document.querySelector(".btn-primary").disabled = false;
+          document.querySelector(".btn-primary").innerHTML = 'Change Password';
+          document.querySelector("#changePassword").classList.remove('was-validated');
+          document.querySelector("#currentPassword").classList.add('is-invalid');
+          let msg = 'Callback Error message';
+          if (result === "1") {
+            msg = 'Wrong Request Method';
+          }
+          else if (result === "2") {
+            msg = 'You have already signed in. Maybe clear browser cookies and try again?';
+          }
+          else if (result === "3") {
+            msg = 'authuser / password is missing on the server side.';
+          }
+          else if (result === "4") {
+            msg = 'Authentication has failed due to incorrect password.';
+          }
+          else {
+            msg = `Error: ${result}`;
+          }
+          document.querySelector("#currentPassword + .invalid-feedback").textContent = msg;
+        }
+      },
+      error: function (xhr) {
+        alert("A server side error occured: " + xhr.status + " " + xhr.statusText + "\nPlease try again later.");
+      }
+    });
+  }
 }
 
 function wordCount(){
@@ -514,7 +586,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 $(document).ready(function(){
   if (!moduleExists("signin")) {
-    document.querySelector(".navbar-text a").addEventListener("click", asyncSignout, false);
+    document.querySelector("#navbarSignout").addEventListener("click", asyncSignout, false);
   }
   if (moduleExists("signin")) {
     // signin-avatar-picker
@@ -539,6 +611,27 @@ $(document).ready(function(){
       document.getElementById("signinPassword").style.removeProperty('display');
     });
     if (getUrlParam('signedout', '0') === "1") alert("You have successfully signed out.");
+  }
+  if (moduleExists("settingsDashboard")) {
+    document.querySelector("#changePassword").addEventListener("submit", asyncChangePassword, false);
+    document.querySelector("#currentPassword").addEventListener("input", () => {
+      document.querySelector("#changePassword").classList.remove('was-validated');
+      document.querySelector("#currentPassword").classList.remove('is-invalid');
+      document.querySelector("#newPassword").classList.remove('is-invalid');
+      document.querySelector("#confirmPassword").classList.remove('is-invalid');
+    }, false);
+    document.querySelector("#newPassword").addEventListener("input", () => {
+      document.querySelector("#changePassword").classList.remove('was-validated');
+      document.querySelector("#currentPassword").classList.remove('is-invalid');
+      document.querySelector("#newPassword").classList.remove('is-invalid');
+      document.querySelector("#confirmPassword").classList.remove('is-invalid');
+    }, false);
+    document.querySelector("#confirmPassword").addEventListener("input", () => {
+      document.querySelector("#changePassword").classList.remove('was-validated');
+      document.querySelector("#currentPassword").classList.remove('is-invalid');
+      document.querySelector("#newPassword").classList.remove('is-invalid');
+      document.querySelector("#confirmPassword").classList.remove('is-invalid');
+    }, false);
   }
   if (moduleExists("main")) {
     // construct EventListener for mainInput for wordCount

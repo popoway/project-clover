@@ -1,6 +1,9 @@
 <?php
 require_once("config.php");
 
+# Specify the app version.
+define("PC_VER", file_get_contents("VERSION"));
+
 function getSqliteVersion() {
   if (extension_loaded('pdo_sqlite') && extension_loaded('sqlite3')) return "enabled";
   else return "not installed";
@@ -62,6 +65,12 @@ function currentPageName($page) {
       break;
     case "signin":
       return "Sign in";
+      break;
+    case "settings-dashboard":
+      return "Settings";
+      break;
+    case "settings-otp":
+      return "One-time Password Settings";
       break;
     default:
       return null;

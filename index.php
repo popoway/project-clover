@@ -43,12 +43,31 @@ if (signedin() && ($page == "signin")) {
 # Generate page content
 $page_title = currentPageName($page);
 require("modules/head.php");
-if ($page == "signin") require("modules/signin.php");
-if ($page == "home") {
-  require("modules/main.php");
-  require("modules/feed.php");
+switch ($page) {
+  case 'signin':
+    require("modules/signin.php");
+    break;
+  case 'home':
+    require("modules/main.php");
+    require("modules/feed.php");
+    break;
+  case 'goals':
+    require("modules/goals.php");
+    break;
+  case 'dates':
+    require("modules/dates.php");
+    break;
+  case 'mobileconfig':
+    require("modules/mobileconfig.php");
+    break;  
+  case 'settings-dashboard':
+    require("modules/settings/dashboard.php");
+    break;  
+  case 'settings-otp':
+    require("modules/settings/otp.php");
+    break;  
+  default:
+    # code...
+    break;
 }
-else if ($page == "goals") require("modules/goals.php");
-else if ($page == "dates") require("modules/dates.php");
-else if ($page == "mobileconfig") require("modules/mobileconfig.php");
 require("modules/tail.php");
