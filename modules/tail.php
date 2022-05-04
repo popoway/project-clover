@@ -1,4 +1,4 @@
-  <footer id="tail" style="padding-top: 56px;">
+  <footer id="tail">
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-3">
@@ -6,9 +6,9 @@
         <div class="col-12 col-lg-6 text-center">
           <p>
             <sub>
-              project-clover v<?php echo PC_VER; ?> &copy; <?php echo date("Y"); ?> popoway. <a href="https://github.com/popoway/project-clover" target="_blank">GitHub</a>
-              <a href="javascript:alert('Debug info: \nEnvironment: <?php echo PC_ENV; ?>\nVersion: <?php echo PC_VER; ?>\nHost: <?php echo gethostname(); ?>\nSite URL: <?php echo PC_SITEURL; ?>\nCDN: <?php echo PC_CDNURL; ?>\nMySQL: <?php echo getMySQLVersion(); ?> \nDatabase: <?php echo DB_HOST; ?>\nServer timestamp: <?php echo(date("Y-m-d h:m:s T+Z")); ?>')">Debug</a>
-              <a href="https://status.popoway.cloud/" target="_blank">Status</a>
+              project-clover <?php echo PC_VER; ?> &copy; <?php echo date("Y"); ?> popoway. <a href="https://github.com/popoway/project-clover" target="_blank">GitHub</a> ·
+              <a href="javascript:alert('Debug info: \nEnvironment: <?php echo PC_ENV; ?>\nVersion: <?php echo PC_VER; ?>\nHost: <?php echo gethostname(); ?>\nSite URL: <?php echo PC_SITEURL; ?>\nCDN: <?php echo PC_CDNURL; ?>\nMySQL: <?php echo getMySQLVersion(); ?> \nDatabase: <?php echo DB_HOST; ?>\nServer timestamp: <?php echo(date("Y-m-d h:m:s T+Z")); ?>')">Debug</a> ·
+              <a href="https://status.popoway.cloud/" target="_blank">System Status</a>
             </sub>
           </p>
         </div>

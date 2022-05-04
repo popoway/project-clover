@@ -79,17 +79,11 @@ if (!isset($page_title)) $page_title = "Untitled";
       <?php if ( isset($_SESSION["signedin"]) && $_SESSION["signedin"] ) {
         ?>
       <span class="navbar-text">
-        Signed in as
         <span id="navbarUsername">
           <?php echo currentAuthuserName($_SESSION["authuser"]); ?>
         </span>
-        <a href="javascript:void(0)">Sign out</a>
-      </span>
-        <?php
-      } else {
-        ?>
-      <span class="navbar-text">
-        You have not signed in.
+        <a href="./?page=settings-dashboard">Settings</a>
+        <a href="javascript:void(0)" id="navbarSignout">Sign out</a>
       </span>
         <?php
       }?>
