@@ -1,9 +1,14 @@
 # project-clover
 [![GitHub tag](https://img.shields.io/github/tag/popoway/project-clover.svg)](https://github.com/popoway/project-clover/tags)
 [![GitHub Release Date](https://img.shields.io/github/release-date/popoway/project-clover.svg)](https://github.com/popoway/project-clover/releases)
-[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/popoway/project-clover.svg)](https://github.com/popoway/project-clover/releases)
 [![GitHub commit activity the past week, 4 weeks, year](https://img.shields.io/github/commit-activity/m/popoway/project-clover.svg)](https://github.com/popoway/project-clover/commits)
+[![Combined time spent in the repo by all collaborators who’ve installed WakaTime’s GitHub integration](https://wakatime.com/badge/github/popoway/project-clover.svg?style=flat)](https://wakatime.com/badge/github/popoway/project-clover)
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/popoway/project-clover.svg)](https://github.com/popoway/project-clover/releases)
 [![license](https://img.shields.io/github/license/popoway/project-clover.svg)](https://popoway.mit-license.org/)  
+[![CodeQL code scanning alert](https://github.com/popoway/project-clover/actions/workflows/codeql.yml/badge.svg?style=flat)](https://github.com/popoway/project-clover/actions/workflows/codeql.yml)
+[![PHP Composer](https://github.com/popoway/project-clover/actions/workflows/php.yml/badge.svg)](https://github.com/popoway/project-clover/actions/workflows/php.yml)
+[![Release workflow](https://github.com/popoway/project-clover/actions/workflows/release.yml/badge.svg)](https://github.com/popoway/project-clover/actions/workflows/release.yml)
+
 <div align="center"><img src="./assets/img/screenshot.png" alt="project-clover Logo" width="350" /></div>
 Who's the Queen of vday20?
 

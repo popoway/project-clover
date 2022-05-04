@@ -26,10 +26,20 @@ function getUrlParam(parameter, defaultvalue){
   return urlparameter;
 }
 
+/**
+ * Check if the specified module exists on the page.
+ * @param {string} module Name of the module.
+ * @returns True if the module exists, or false if the modue does not exist.
+ */
 function moduleExists(module) {
   return document.querySelector(`#${module}`) != null;
 }
 
+/**
+ * Generate localized feed date string.
+ * @param {string} date Date string from API to parse.
+ * @returns Localized date string.
+ */
 function localizeFeedDate(date){
   var msec = Date.parse(date); // Parse date string to unix milliseconds
   var d = new Date(msec); // Then convert it to a date object
@@ -106,7 +116,7 @@ function asyncSignin(evt) {
 }
 
 function asyncSignout(evt) {
-  evt.preventDefault();
+  if (evt != null || evt != undefined) evt.preventDefault();
   $.ajax({url: "/api/signout.php", type: "POST",
   success: function(result){
     location.href = "/index.php?page=signin&continue=" + getUrlParam('page', 'home') + "&signedout=1";
@@ -114,6 +124,77 @@ function asyncSignout(evt) {
   error: function(xhr){
     alert("A server side error occured: " + xhr.status + " " + xhr.statusText + "\nPlease try again later.");
   }});
+}
+
+function asyncChangePassword(evt) {
+  evt.preventDefault();
+  document.querySelector("#changePassword").classList.add('was-validated');
+  let valid = true;
+  if (document.querySelector("#currentPassword").value === "") {
+    document.querySelector("#currentPassword + .invalid-feedback").textContent = "Please enter current password.";
+    valid = false;
+  }
+  if (document.querySelector("#newPassword").value === "") {
+    document.querySelector("#newPassword + .invalid-feedback").textContent = "Please enter new password.";
+    valid = false;
+  }
+  if (document.querySelector("#confirmPassword").value === "") {
+    document.querySelector("#confirmPassword + .invalid-feedback").textContent = "Please confirm new password.";
+    valid = false;
+  }
+  if (document.querySelector("#confirmPassword").value != document.querySelector("#newPassword").value) {
+    document.querySelector("#changePassword").classList.remove('was-validated');
+    document.querySelector("#currentPassword").classList.add('is-valid');
+    document.querySelector("#newPassword").classList.add('is-invalid');
+    document.querySelector("#confirmPassword").classList.add('is-invalid');
+    document.querySelector("#confirmPassword + .invalid-feedback").textContent = "New password does not match confirm password.";
+    valid = false;
+  }
+  if (!valid) return;
+  else {
+    // Form style before ajax
+    document.querySelector(".btn-primary").disabled = true;
+    const loadingButton = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Updating...';
+    document.querySelector(".btn-primary").innerHTML = loadingButton;
+    // ajax
+    const currentPassword = document.querySelector("#currentPassword").value;
+    const newPassword = document.querySelector("#newPassword").value;
+    $.ajax({
+      url: "/api/changePassword.php", type: "POST", data: { current_password: currentPassword, new_password: newPassword },
+      success: function (result) {
+        if (result === "0") {
+          alert("Your password has been updated. Use your new password to sign in.")
+          asyncSignout(null);
+        }
+        else {
+          document.querySelector(".btn-primary").disabled = false;
+          document.querySelector(".btn-primary").innerHTML = 'Change Password';
+          document.querySelector("#changePassword").classList.remove('was-validated');
+          document.querySelector("#currentPassword").classList.add('is-invalid');
+          let msg = 'Callback Error message';
+          if (result === "1") {
+            msg = 'Wrong Request Method';
+          }
+          else if (result === "2") {
+            msg = 'You have not already signed in. Maybe clear browser cookies and try again?';
+          }
+          else if (result === "3") {
+            msg = 'Current password is incorrect.';
+          }
+          else if (result === "4") {
+            msg = 'authuser / password is missing on the server side.';
+          }
+          else {
+            msg = `Error: ${result}`;
+          }
+          document.querySelector("#currentPassword + .invalid-feedback").textContent = msg;
+        }
+      },
+      error: function (xhr) {
+        alert("A server side error occured: " + xhr.status + " " + xhr.statusText + "\nPlease try again later.");
+      }
+    });
+  }
 }
 
 function wordCount(){
@@ -180,6 +261,10 @@ function wordCountOnReset(){
   $("#mainInputHelp").text("随便说点什么吧～😉");
 }
 
+/**
+ * Asynchronously remove a post.
+ * @param {*} evt The event which triggers this function.
+ */
 function asyncPostRemove(evt) {
   evt.preventDefault();
   if (confirm("Are you sure you want to remove this post? This action cannot be undone.")) {
@@ -222,6 +307,11 @@ function asyncPostRemove(evt) {
   }
 }
 
+/**
+ * Look up authuser by username.
+ * @param {string} name The username used to look up authuser id.
+ * @returns Authuser id. If no matching authuser is found, return -1.
+ */
 function currentAuthuserId(name) {
   if (name === null || name === undefined) name = document.getElementById("mainFormName").textContent;
   switch (name) {
@@ -234,6 +324,11 @@ function currentAuthuserId(name) {
   }
 }
 
+/**
+ * Look up username by authuser.
+ * @param {number} authuser The authuser id used to look up username.
+ * @returns Matching username. If no matching username is found, return null.
+ */
 function currentAuthuserName(authuser) {
   if (authuser === null || authuser === undefined) return document.getElementById("mainFormName").textContent;
   switch (parseInt(authuser)) {
@@ -246,7 +341,10 @@ function currentAuthuserName(authuser) {
   }
 }
 
-// $0.getElementsByClassName("feed-likes-authuser-")
+/**
+ * Asynchronously like a post.
+ * @param {*} evt The event which triggers this function.
+ */
 function asyncPostLike(evt) {
   evt.preventDefault();
   const currentPost = evt.target.parentElement.parentElement.parentElement.parentElement;
@@ -293,6 +391,9 @@ function asyncPostLike(evt) {
   });
 }
 
+/**
+ * Asynchronously load post likes from the API and add to global postLikes[].
+ */
 function asyncPostLikeLoad() {
   fetch(`/api/asyncLoad.php?type=post_like`)
     .then(response => response.json())
@@ -466,25 +567,25 @@ window.addEventListener("DOMContentLoaded", (event) => {
       button.classList.replace("btn-outline-danger", "btn-danger");
     }
   }
- if (getUrlParam("page", null) == "home") {
-   asyncPostLikeLoad();
-   asyncPostLoad(0, 10);
-   if (document.querySelector(".feed-infinite-scroll") != null) {
-     $(window).scroll(function () {
-       if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-         setTimeout(() => {asyncPostLoad(posts.length, 10)}, Math.floor(Math.random() * 1000));
-         if (postsIndex[0] == 1 && document.querySelector(".feed-infinite-scroll") !== null) {
-           document.querySelector(".feed-infinite-scroll").remove();
-         }
-       }
-     });
-   }
- }
+  if (getUrlParam("page", null) == "home") {
+    asyncPostLikeLoad();
+    asyncPostLoad(0, 10);
+    if (document.querySelector(".feed-infinite-scroll") != null) {
+      $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+          setTimeout(() => {asyncPostLoad(posts.length, 10)}, Math.floor(Math.random() * 1000));
+          if (postsIndex[0] == 1 && document.querySelector(".feed-infinite-scroll") !== null) {
+            document.querySelector(".feed-infinite-scroll").remove();
+          }
+        }
+      });
+    }
+  }
 });
 
 $(document).ready(function(){
   if (!moduleExists("signin")) {
-    document.querySelector(".navbar-text a").addEventListener("click", asyncSignout, false);
+    document.querySelector("#navbarSignout").addEventListener("click", asyncSignout, false);
   }
   if (moduleExists("signin")) {
     // signin-avatar-picker
@@ -509,6 +610,27 @@ $(document).ready(function(){
       document.getElementById("signinPassword").style.removeProperty('display');
     });
     if (getUrlParam('signedout', '0') === "1") alert("You have successfully signed out.");
+  }
+  if (moduleExists("settingsDashboard")) {
+    document.querySelector("#changePassword").addEventListener("submit", asyncChangePassword, false);
+    document.querySelector("#currentPassword").addEventListener("input", () => {
+      document.querySelector("#changePassword").classList.remove('was-validated');
+      document.querySelector("#currentPassword").classList.remove('is-invalid');
+      document.querySelector("#newPassword").classList.remove('is-invalid');
+      document.querySelector("#confirmPassword").classList.remove('is-invalid');
+    }, false);
+    document.querySelector("#newPassword").addEventListener("input", () => {
+      document.querySelector("#changePassword").classList.remove('was-validated');
+      document.querySelector("#currentPassword").classList.remove('is-invalid');
+      document.querySelector("#newPassword").classList.remove('is-invalid');
+      document.querySelector("#confirmPassword").classList.remove('is-invalid');
+    }, false);
+    document.querySelector("#confirmPassword").addEventListener("input", () => {
+      document.querySelector("#changePassword").classList.remove('was-validated');
+      document.querySelector("#currentPassword").classList.remove('is-invalid');
+      document.querySelector("#newPassword").classList.remove('is-invalid');
+      document.querySelector("#confirmPassword").classList.remove('is-invalid');
+    }, false);
   }
   if (moduleExists("main")) {
     // construct EventListener for mainInput for wordCount

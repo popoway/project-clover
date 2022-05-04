@@ -22,12 +22,16 @@ nav {
 #signinPassword {
   display: none;
 }
-#signinInputAuthuser { 
+#signinInputAuthuser, #signinInputUsername { 
   display: none;
 }
 
-#main, #feed, #goals, #dates, #mobileconfig, #signin {
+#main, #feed, #goals, #dates, #mobileconfig, #signin, #settingsDashboard, #settingsOtp {
   padding-top: 78px;
+}
+
+#tail {
+  padding-top: 56px;
 }
 
 #mainFormName {

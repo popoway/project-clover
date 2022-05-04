@@ -2,9 +2,6 @@
 /** For guides on how to configure project-clover installation, */ 
 /** visit: https://github.com/popoway/project-clover            */
 
-# Specify the app version.
-define("PC_VER", "2.1.1");
-
 # Specify the runtime environment: staging, production
 define( 'PC_ENV', 'staging' );
 
