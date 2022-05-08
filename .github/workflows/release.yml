@@ -55,6 +55,10 @@ jobs:
             --field branch="$DESTINATION_BRANCH" \
             --field sha="$SHA"
 
+  release:
+    needs: pre-release
+    runs-on: ubuntu-latest
+    steps:
       # Bump version on merging Pull Requests with specific labels. (bump:major,bump:minor,bump:patch)
       - name: Bump version
         id: bumpr
@@ -83,18 +87,6 @@ jobs:
           body: ${{ steps.bumpr.outputs.message }}
           draft: false
           prerelease: false
-
-  release:
-    needs: pre-release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      # Create PR to keep develop branch up-to-date
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          branch: master
-          base: develop
 
   release-check:
     if: github.event.action == 'labeled'
