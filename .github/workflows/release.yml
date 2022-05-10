@@ -14,17 +14,19 @@ on:
       - labeled
 
 jobs:
-  release:
+  pre-release:
     if: github.event.action != 'labeled'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      # Bump version on merging Pull Requests with specific labels. (bump:major,bump:minor,bump:patch)
+      # Fetch the next version by dry-running bumpr
       - name: Bump version
-        id: bumpr
+        id: bumpr-dry
         if: "!startsWith(github.ref, 'refs/tags/')"
         uses: haya14busa/action-bumpr@v1
+        with:
+          dry_run: true
 
       # Overwrite next version in ./VERSION
       - name: Write version in ./VERSION
@@ -32,7 +34,7 @@ jobs:
         with:
           path: ./VERSION
           contents: |
-            ${{ steps.bumpr.outputs.next_version }}
+            ${{ steps.bumpr-dry.outputs.next_version }}
           write-mode: overwrite
 
       # Use the REST API to commit changes, so we get automatic commit signing
@@ -53,13 +55,15 @@ jobs:
             --field branch="$DESTINATION_BRANCH" \
             --field sha="$SHA"
 
-      # Update corresponding signed major, minor, and patch tag.
-      - name: Push corresponding tag
-        uses: mathieudutour/github-tag-action@v6.0
-        if: "!steps.bumpr.outputs.skip"
-        with:
-          github_token: ${{ secrets.github_token }}
-          custom_tag: ${{ steps.bumpr.outputs.next_version }}
+  release:
+    needs: pre-release
+    runs-on: ubuntu-latest
+    steps:
+      # Bump version on merging Pull Requests with specific labels. (bump:major,bump:minor,bump:patch)
+      - name: Bump version
+        id: bumpr
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        uses: haya14busa/action-bumpr@v1
 
       # Get tag name.
       - name: Get tag name
@@ -92,15 +96,3 @@ jobs:
       # Post bumpr status comment
       - name: Check release
         uses: haya14busa/action-bumpr@v1
-
-  post-release:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      # Create PR to keep develop branch up-to-date
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          branch: master
-          base: develop
