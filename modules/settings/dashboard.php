@@ -38,6 +38,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Change Password</button>
           </form>
+          <h2>Multi-factor Authentication</h2>
+          <p>For higher security, enable MFA using the following button:</p>
+          <button type="button" class="btn btn-primary" onclick="window.location.href='/?page=settings-otp'">MFA Settings</button>
         </div>
         <div class="col-12 col-lg-3">
         </div>
